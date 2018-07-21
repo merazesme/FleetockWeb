@@ -1,0 +1,87 @@
+nav
+{
+	box-shadow: none;
+	position: fixed;
+	background-color: transparent;
+	padding: 0px 20px;
+}
+nav li a 
+{
+	font-family: 'Dosis',sans-serif;
+	font-size: 15px;
+	font-weight: bold;
+}
+nav img
+{
+	margin-top: 5px;
+}
+section
+{
+	background-image: url(../img/gdl.jpg);
+	background-size: cover; 
+	width: 100%;
+	height: 800px;
+}
+.box
+{
+	margin-top: 20px;
+	height: 400px;
+}
+nav li a:hover
+{
+	color: #9cff57;
+	background-color: transparent;
+
+}
+.color
+{
+	background: #1faa00;
+}	 
+
+div#imagen
+{
+	width: 280px;
+	height: 280px;
+	margin: 10px;
+	border-radius: 10px;
+	background-image: url(../img/playa.jpg); 
+}
+div#info
+{
+	position: absolute;
+	margin-left: -13px; 
+	width: 280px;
+	height: 280px;
+	border-radius: 10px;
+	background-color: rgba(31, 31, 31, 0.3);
+	-webkit-transition: opacity 0.5s; 
+	opacity: 0;
+}
+div#imagen:hover div#info
+{
+	opacity: 1;
+}
+p#headline
+{
+	position: absolute;
+	color:white;
+	font-style: bold;
+	font-size: 21px; 
+	margin: 100px;
+}
+#Titulo
+{
+	position: absolute;
+	font-family: 'Merienda', cursive;
+	color:white;
+	font-size: 60px; 
+	margin: 190px;
+}
+#Frase
+{
+	position: absolute;
+	font-family: 'Raleway',  sans-serif;
+	color:white;
+	font-size: 40px; 
+	margin: 360px 280px 280px 280px;
+}
