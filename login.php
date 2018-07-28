@@ -1,3 +1,7 @@
+<?php
+  include('php/conexion.php');
+  $conexion=conexion();
+?>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -12,7 +16,7 @@
 		<header>
 			<nav>
 				<div class="nav-wrapper">
-					<a href="#" class="brand-logo"><img style="width: 100%; height: 100%; margin-top: 2px;" src="img/logo.png"></a>
+					<a href="#" class="brand-logo"><img style="width: 100%; height: 100%; margin-top: 2px;" src="img/fabi.png"></a>
 					<a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
 					<ul class="right hide-on-med-and-down">
 						<li>
@@ -23,7 +27,7 @@
 					        </div>
 						</li>
 						<li><a href="#">Casa</a></li>
-						<li><a href="#">Destinos</a></li>
+						<li><a href="muestraDestino.php">Destinos</a></li>
 						<li><a href="#modal1" class="modal-trigger">Iniciar sesión</a></li>
 						<li><a href="#">Acerca de </a></li>
 					</ul>
@@ -32,14 +36,50 @@
 			<ul class="sidenav" id="mobile-demo">
 			    <li><a href="#">Buscador</a></li>
 			    <li><a href="#">Casa</a></li>
-			    <li><a href="#">Destinos</a></li>
+			    <li><a href="muestraDestino.php">Destinos</a></li>
 			    <li><a href="#">Iniciar sesión</a></li>
 			    <li><a href="#">Acerca de </a></li>
 			</ul>
-			<section>
-				<span id="Titulo">El arte de viajar</span>
-				<span id="Frase">“Un viaje de mil millas ha de comenzar con un simple paso” – Lao Tzu</span>
-			</section>
+			<div id="holamundo">
+			<div class="slidershow">
+				<ul class="sliderhead" id="hello">
+					<li>
+						<img src="img/slider1.jpg">
+						<section class="caption">
+							<span id="Titulo">El arte de viajar</span>
+							<span id="Frase">“Un viaje de mil millas ha de comenzar con un simple paso” – Lao Tzu</span>
+						</section>
+					</li>
+					<li>
+						<img src="img/slider2.jpg">
+						<section class="caption">
+							<span id="Titulo">El arte de viajar</span>
+							<span id="Frase">“Un viaje de mil millas ha de comenzar con un simple paso” – Lao Tzu</span>
+						</section>
+					</li>
+					<li>
+						<img src="img/slider3.jpg">
+						<section class="caption">
+							<span id="Titulo">El arte de viajar</span>
+							<span id="Frase">“Un viaje de mil millas ha de comenzar con un simple paso” – Lao Tzu</span>
+						</section>
+					</li>
+					<li>
+						<img src="img/slider4.jpg">
+						<section class="caption">
+							<span id="Titulo">El arte de viajar</span>
+							<span id="Frase">“Un viaje de mil millas ha de comenzar con un simple paso” – Lao Tzu</span>
+						</section>
+					</li>
+				</ul>
+			</div>
+			<div class="left1">
+					<span><i class="material-icons">navigate_before</i></span>
+				</div>
+				<div class="right1">
+					<span> <i class="material-icons">navigate_next</i></span>
+				</div>
+		</div>
 		</header>
 		<div id="modal1" class="modal">
 			<div class="modal-content">
@@ -145,7 +185,7 @@
 			</div>
 		</div>
 		<div class="container" align="center" style="margin-top: 100px; margin-bottom: 100px;">
-			<h4 style="font-family: 'Leckerli One', cursive;">Una frase bien perrona</h4>
+			<h4 class="Frase">Una frase bien perrona</h4>
 			<img src="img/logo_1.png" style="width: 130px; height: 130px;">
 			<br>
 			<h4 style="font-family: 'Neucha', cursive; font-size: 25px;">"Ve el mundo. Es más fantástico que cualquier sueño". -Ray Bradbury</h4>
@@ -245,7 +285,7 @@
 	    <!-- Cuadros de imagenes con los destinos -->
 	    <div style="margin-top: 100px;"></div>
 	    <div class="center container" style="margin-bottom: 100px;">
-	    	<h3 style="font-family: 'Leckerli One', cursive;">Los mejores sitios</h3>
+	    	<h3 class="Frase">Los mejores sitios</h3>
 	    	<p style="font-family: Arial">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
 	    	tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
 	    	quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
@@ -253,56 +293,49 @@
 	    	cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
 	    	proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
 	    </div>
-	    <div style="margin-bottom: 100px;">
-		    <div class="container row">
-				<div id="imagen" class="col s4 hoverable">
-					<div id="info">
-						<p id="headline">Cancún</p>
-					</div>
-				</div>
-				<div id="imagen" class="col s4 hoverable">
-					<div id="info">
-						<p id="headline">Cancún</p>
-					</div>
-				</div>
-				<div id="imagen" class="col s4 hoverable">
-					<div id="info">
-						<p id="headline">Cancún</p>
-					</div>
-				</div>
-			</div>
-			<div class="container row">
-				<div id="imagen" class="col s4 hoverable">
-					<div id="info">
-						<p id="headline">Cancún</p>
-					</div>
-				</div>
-				<div id="imagen" class="col s4 hoverable">
-					<div id="info">
-						<p id="headline">Cancún</p>
-					</div>
-				</div>
-				<div id="imagen" class="col s4 hoverable">
-					<div id="info">
-						<p id="headline">Cancún</p>
-					</div>
-				</div>
-			</div>
-		</div>
+			   <div style="margin-bottom: 100px;">
+		    </div>
+        <div class="row container">
+          <?php
+            $sql="SELECT nombre, foto, idDestino, pais from destino INNER JOIN pertenece on idDestino = Destino_idDestino GROUP BY nombre HAVING COUNT(*) > 1 OR destino.idDestino=5";
+            $result=mysqli_query($conexion, $sql);
+            while($ver =mysqli_fetch_row($result))
+            {
+          ?>
+          <div class="col l4">
+            <div class="card">
+                <div class="card-image">
+                  <img class="activator" src="<?php echo $ver[1] ?>">
+                </div>
+                <div class="card-content">
+                  <span class="card-title activator grey-text text-darken-4"><?php echo $ver[0] ?><i class="material-icons right">more_vert</i></span>
+                  <p><a style="color:#1faa00; " href="muestraDestino.php?id=<?php echo $ver[2]?>" target="_blank">Detalles</a></p>
+                </div>
+                <div class="card-reveal">
+                  <span class="card-title grey-text text-darken-4"><?php echo $ver[0] ?><i class="material-icons right">close</i></span>
+                  <p>Pais: <?php echo $ver[3] ?></p>
+                  <p>Calificacion: pendiente*</p>
+                  <p>ID <?php echo $ver[2] ?></p>
+                </div>
+              </div>
+          </div>
+          <?php }  ?>
+        </div>
+
 		<!-- Footer -->
 		<footer class="page-footer">
 			<div class="container">
 				<div class="row">
-					<div class="col l6 s12">
-						<h5 class="white-text">Fleetock</h5>
-						<p class="grey-text text-lighten-4">
+					<div class="col l7 s12">
+						<h5 class="black-text">Fleetock</h5>
+						<p class="black-text text-lighten-4">
 							Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
 							tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.
 						</p>
 					</div>
-					<div class="col l4 offset-l2 s12">
-						<h5 class="white-text">Links</h5>
-						<ul>
+					<div class="col l3 offset-l2 s12">
+						<h5 class="black-text">Links</h5>
+						<ul id="links">
 						  	<li><a href="#">Buscador</a></li>
 						    <li><a href="#">Casa</a></li>
 						    <li><a href="#">Destinos</a></li>
@@ -318,8 +351,8 @@
 				</div>
 			</div>
 		</footer>
-		<script src="jquery/jquery.js"></script>
-	    <script src="js/materialize.js"></script>
+		<script src="js/jquery.js"></script>
+	  <script src="js/materialize.js"></script>
 		<script type="text/javascript" src="js/login.js"></script>
 		<script type="text/javascript" src="js/registrarUsuario.js"></script>
 		<script type="text/javascript" src="js/validarUsuario.js"></script>
