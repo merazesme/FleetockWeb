@@ -19,17 +19,17 @@
 					<a href="#" class="brand-logo"><img style="width: 100%; height: 100%; margin-top: 2px;" src="img/fabi.png"></a>
 					<a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
 					<ul class="right hide-on-med-and-down">
-						<li><a href="#">Casa</a></li>
-						<li><a href="muestraDestino.php">Destinos</a></li>
+						<li><a class="homeScroll">Casa</a></li>
+						<li><a class="destinosScroll">Destinos</a></li>
 						<li><a href="#modal1" class="modal-trigger">Iniciar sesión</a></li>
 						<li><a href="#">Acerca de </a></li>
 					</ul>
 				</div>
 			</nav>
 			<ul class="sidenav" id="mobile-demo">
-			    <li><a href="#">Casa</a></li>
-			    <li><a href="muestraDestino.php">Destinos</a></li>
-			    <li><a href="#">Iniciar sesión</a></li>
+			    <li><a class="homeScroll">Casa</a></li>
+			    <li><a class="destinosScroll">Destinos</a></li>
+			    <li><a href="#modal1" class="modal-trigger">Iniciar sesión</a></li>
 			    <li><a href="#">Acerca de </a></li>
 			</ul>
 			<div id="holamundo">
@@ -325,33 +325,26 @@
 	    </div>
 			   <div style="margin-bottom: 100px;">
 		    </div>
-        <div class="row container">
-          <?php
-            $sql="SELECT nombre, foto, idDestino, pais from destino INNER JOIN pertenece on idDestino = Destino_idDestino GROUP BY nombre HAVING COUNT(*) > 1 OR destino.idDestino=5";
-            $result=mysqli_query($conexion, $sql);
-            while($ver =mysqli_fetch_row($result))
-            {
-          ?>
-          <div class="col l4">
-            <div class="card">
-                <div class="card-image">
-                  <img class="activator" src="<?php echo $ver[1] ?>">
-                </div>
-                <div class="card-content">
-                  <span class="card-title activator grey-text text-darken-4"><?php echo $ver[0] ?><i class="material-icons right">more_vert</i></span>
-                  <p><a style="color:#1faa00; " href="muestraDestino.php?id=<?php echo $ver[2]?>" target="_blank">Detalles</a></p>
-                </div>
-                <div class="card-reveal">
-                  <span class="card-title grey-text text-darken-4"><?php echo $ver[0] ?><i class="material-icons right">close</i></span>
-                  <p>Pais: <?php echo $ver[3] ?></p>
-                  <p>Calificacion: pendiente*</p>
-                  <p>ID <?php echo $ver[2] ?></p>
+        <div class="container">
+          <div class="row">
+            <div class="input-field offset-l4 offset-m4 col s12 m6 l6">
+              <i class="material-icons prefix">search</i>
+              <input id="buscador" type="text">
+            </div>
+            <div class="input-field col offset-s3 s9 m2 l2">
+              <a class="waves-effect waves-light btn" id="btnTendencia">Tendencias</a>
+            </div>
+
+          </div>
+        </div>
+        <div class="container">
+          <div style="margin: 0px 0px 80px 0px; ">
+            <div class="contenedor">
+                <div class="row" id="destinos">
                 </div>
               </div>
           </div>
-          <?php }  ?>
         </div>
-
 		<!-- Footer -->
 		<footer class="page-footer">
 			<div class="container">
@@ -366,9 +359,9 @@
 					<div class="col l3 offset-l2 s12">
 						<h5 class="black-text">Links</h5>
 						<ul id="links">
-						    <li><a href="#">Casa</a></li>
-						    <li><a href="#">Destinos</a></li>
-						    <li><a href="#">Iniciar sesión</a></li>
+						    <li><a class="homeScroll">Casa</a></li>
+						    <li><a class="destinosScroll">Destinos</a></li>
+						    <li><a href="#modal1" class="modal-trigger">Iniciar sesión</a></li>
 						    <li><a href="#">Acerca de </a></li>
 						</ul>
 					</div>
