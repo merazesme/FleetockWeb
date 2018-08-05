@@ -24,6 +24,8 @@ $(document).ready(function(){
 	$('.carousel.carousel-slider').carousel({
 		fullWidth: true
 		});
+
+	$('.tabs').tabs();
 	});
 
 	var imgItems = $('.sliderhead li').length;

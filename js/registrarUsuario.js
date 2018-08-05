@@ -5,18 +5,43 @@ $(document).ready(function()
         format: 'yyyy-mm-dd',
     });
     $('#nombre').keypress(function(tecla) {
-    if((tecla.charCode < 97 || tecla.charCode > 122) && (tecla.charCode < 65 || tecla.charCode > 90))
-        {
-            if(charCode >= 192 && charCode <= 255)
-                return false;
-        }
+        if ((tecla.charCode < 97 || tecla.charCode > 122)//letras mayusculas
+            && (tecla.charCode < 65 || tecla.charCode > 90) //letras minusculas
+            && (tecla.charCode != 241) //ñ
+            && (tecla.charCode != 209) //Ñ
+            && (tecla.charCode != 32) //espacio
+            && (tecla.charCode != 225) //á
+            && (tecla.charCode != 233) //é
+            && (tecla.charCode != 237) //í
+            && (tecla.charCode != 243) //ó
+            && (tecla.charCode != 250) //ú
+            && (tecla.charCode != 193) //Á
+            && (tecla.charCode != 201) //É
+            && (tecla.charCode != 205) //Í
+            && (tecla.charCode != 211) //Ó
+            && (tecla.charCode != 218) //Ú
+            )
+    return false;
     });
     $('#apellidos').keypress(function(tecla) {
     if((tecla.charCode < 97 || tecla.charCode > 122) && (tecla.charCode < 65 || tecla.charCode > 90))
-        {
-            if(charCode >= 192 && charCode <= 255)
-                return false;
-        }
+    if ((tecla.charCode < 97 || tecla.charCode > 122)//letras mayusculas
+        && (tecla.charCode < 65 || tecla.charCode > 90) //letras minusculas
+        && (tecla.charCode != 241) //ñ
+        && (tecla.charCode != 209) //Ñ
+        && (tecla.charCode != 32) //espacio
+        && (tecla.charCode != 225) //á
+        && (tecla.charCode != 233) //é
+        && (tecla.charCode != 237) //í
+        && (tecla.charCode != 243) //ó
+        && (tecla.charCode != 250) //ú
+        && (tecla.charCode != 193) //Á
+        && (tecla.charCode != 201) //É
+        && (tecla.charCode != 205) //Í
+        && (tecla.charCode != 211) //Ó
+        && (tecla.charCode != 218) //Ú
+        )
+return false;
     });
 
     $('#tockname').keypress(function(tecla) {
@@ -25,16 +50,35 @@ $(document).ready(function()
 
     $('#password').keypress(function(tecla) {
     if((tecla.charCode < 97 || tecla.charCode > 122) && (tecla.charCode < 65 || tecla.charCode > 90) &&
-    (tecla.charCode < 48 || tecla.charCode > 57) && tecla.charCode != 45 && tecla.charCode != 64
-    && tecla.charCode != 95 && tecla.charCode != 58 && tecla.charCode != 59 && tecla.charCode != 63
-    && tecla.charCode != 46 && tecla.charCode != 42 ) return false;
+    (tecla.charCode < 48 || tecla.charCode > 57) && tecla.charCode != 45 //-
+    && tecla.charCode != 64 //@
+    && tecla.charCode != 95 //_
+    && tecla.charCode != 58 //:
+    && tecla.charCode != 59 //;
+    && tecla.charCode != 63 //?
+    && tecla.charCode != 46 //.
+    && tecla.charCode != 42 //*
+    && tecla.charCode != 43 //+
+    && tecla.charCode != 35 //#
+    )
+    return false;
     });
 
     $('#confirmaPassword').keypress(function(tecla) {
     if((tecla.charCode < 97 || tecla.charCode > 122) && (tecla.charCode < 65 || tecla.charCode > 90) &&
-    (tecla.charCode < 48 || tecla.charCode > 57) && tecla.charCode != 45 && tecla.charCode != 64
-    && tecla.charCode != 95 && tecla.charCode != 58 && tecla.charCode != 59 && tecla.charCode != 63
-    && tecla.charCode != 46 && tecla.charCode != 42 ) return false;
+    (tecla.charCode < 48 || tecla.charCode > 57)
+    && tecla.charCode != 45 //-
+    && tecla.charCode != 64 //@
+    && tecla.charCode != 95 //_
+    && tecla.charCode != 58 //:
+    && tecla.charCode != 59 //;
+    && tecla.charCode != 63 //?
+    && tecla.charCode != 46 //.
+    && tecla.charCode != 42 //*
+    && tecla.charCode != 43 //+
+    && tecla.charCode != 35 //#
+    )
+    return false;
     });
 
     $('#fechaNacimiento').keypress(function(tecla) {
