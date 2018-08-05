@@ -64,7 +64,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="<?php echo "wishlist.php?v1=$login&v2=$usuario" ?>" onclick="">
+                            <a class="nav-link" href="<?php echo "muestraWishList.php?v1=$login&v2=$usuario" ?>" onclick="">
                                 <i class="material-icons">favorite</i> Wish List
                             </a>
                         </li>
@@ -79,7 +79,7 @@
                                 <a href="#" class="dropdown-item">
                                     <i class="material-icons">help</i> Ayuda
                                 </a>
-                                <a href="#" class="dropdown-item">
+                                <a href="../login.php" class="dropdown-item">
                                     <i class="material-icons">exit_to_app</i> Logout
                                 </a>
                             </div>
@@ -231,7 +231,7 @@
                 </div>
             </div>
         </div>
-        
+
         <footer>
         </footer>
         <!--   Core JS Files   -->

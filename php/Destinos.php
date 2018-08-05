@@ -3,7 +3,7 @@
     $buscar=$_GET['buscar'];
     $opcion=$_GET['opcion'];
     $usuario=$_GET['usuario'];
-    include('modeloWish.php');
+    include('modeloDestino.php');
 
 ?>
 <!DOCTYPE html>
@@ -12,7 +12,7 @@
 <div id="agrega">Agregado al Wish List</div>
 <div id="elimina">Eliminado del Wish List</div>
 <?php
-    muestraWishList($buscar,$opcion,$usuario);
+    muestraDestinos($buscar,$opcion);
  ?>
 <script type="text/javascript">
 var id;
