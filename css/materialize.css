@@ -87,6 +87,16 @@
   background-color: #F44336 !important;
 }
 
+.greenLight
+{
+  background-color: #6CFA7B !important;
+}
+
+.purpleLight
+{
+  background-color: #6a1b9a !important;
+}
+
 .red-text {
   color: #F44336 !important;
 }
@@ -5757,7 +5767,7 @@ body.keyboard-focused .dropdown-content li:focus {
   background-color: #fafafa;
   padding: 0;
   max-height: 70%;
-  width: 35%;
+  width: 40%; /* 35 */
   margin: auto;
   overflow-y: auto;
   border-radius: 2px;

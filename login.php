@@ -19,25 +19,17 @@
 					<a href="#" class="brand-logo"><img style="width: 100%; height: 100%; margin-top: 2px;" src="img/fabi.png"></a>
 					<a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
 					<ul class="right hide-on-med-and-down">
-						<li>
-					        <div class="input-field">
-					          <input id="search" type="search" required>
-					          <label class="label-icon" for="search"><i class="material-icons">search</i></label>
-					          <i class="material-icons">close</i>
-					        </div>
-						</li>
-						<li><a href="#">Casa</a></li>
-						<li><a href="muestraDestino.php">Destinos</a></li>
+						<li><a class="homeScroll">Casa</a></li>
+						<li><a class="destinosScroll">Destinos</a></li>
 						<li><a href="#modal1" class="modal-trigger">Iniciar sesión</a></li>
 						<li><a href="#">Acerca de </a></li>
 					</ul>
 				</div>
 			</nav>
 			<ul class="sidenav" id="mobile-demo">
-			    <li><a href="#">Buscador</a></li>
-			    <li><a href="#">Casa</a></li>
-			    <li><a href="muestraDestino.php">Destinos</a></li>
-			    <li><a href="#">Iniciar sesión</a></li>
+			    <li><a class="homeScroll">Casa</a></li>
+			    <li><a class="destinosScroll">Destinos</a></li>
+			    <li><a href="#modal1" class="modal-trigger">Iniciar sesión</a></li>
 			    <li><a href="#">Acerca de </a></li>
 			</ul>
 			<div id="holamundo">
@@ -102,85 +94,123 @@
 									<label for="passwordLogin">Contraseña</label>
 								</div>
 							</div>
-							<div class="row">
-								<button class="col s12 btn waves-effect waves-light" id="btnLogin" type="submit">Iniciar sesión
-								</button>
-							</div>
+              <div class="container">
+                <div class="row">
+  								<button class="col s12 btn waves-effect waves-light" id="btnLogin" type="submit">Iniciar sesión</button>
+  							</div>
+              </div>
 						</form>
 						<span id="resultadoLogin"></span>
 					</div>
 				</div>
 				<div id="test-swipe-2" class="col s12">
-					<div class="row">
-					    <form class="col s12" id="formRegistro" method="post" name="formulario">
-							<div class="row">
-								<div class="input-field col s6">
-									<input id="nombre" name="nombre" type="text" class="validate">
-									<label for="nombre">Nombre</label>
-								</div>
-								<div class="input-field col s6">
-									<input id="apellidos" name="apellidos" type="text" class="validate">
-									<label for="apellidos">Apellidos</label>
-								</div>
-							</div>
-						    <div class="row">
-						        <div class="input-field col s12">
-						          <input id="email" name="email" type="email" class="validate">
-						          <label for="email">Email</label>
-						        </div>
-						    </div>
-					      	<div class="row">
-						        <div class="input-field col s12">
-						          <input id="tockname" name="tockname" type="text" class="validate">
-						          <label for="tockname">Tockname</label>
-						        </div>
-					      	</div>
-					      	<div class="row">
-						        <div class="input-field col s12">
-						          <input id="password" name="password" type="password" class="validate">
-						          <label for="password">Contraseña</label>
-						        </div>
-					      	</div>
-					      	<div class="row">
-						        <div class="input-field col s12">
-						          <input id="confirmaPassword" name="confirmaPassword" type="password" class="validate">
-						          <label for="confirmaPassword">Confirmar Contraseña</label>
-						        </div>
-					      	</div>
-					      	<div class="row">
-						        <div class="input-field col s12">
-						          <input id="fechaNacimiento" name="fechaNacimiento" type="text" class="datepicker">
-						          <label for="fechaNacimiento">Fecha de nacimiento</label>
-						        </div>
-					      	</div>
-					      	<div class="row">
-								<div class="input-field col s12">
-									<label>Sexo</label>
-								</div>
-								<div class="input-field col s6">
-									<p>
-								      <label>
-								        <input name="grupoSexo" class="radio" value="Hombre" type="radio" />
-								        <span>Maculino</span>
-								      </label>
-								    </p>
-								</div>
-								<div class="input-field col s6">
-								    <p>
-								      <label>
-								        <input name="grupoSexo" class="radio" value="Mujer" type="radio" />
-								        <span>Femenino</span>
-								      </label>
-								    </p>
-									</div>
-					      	</div>
-					      	<div class="row">
-								<button class="col s12 btn waves-effect waves-light" type="submit" id="btnRegistrar">¡Listo!
-								</button>
-							</div>
-					    </form>
-						<span id="resultado"></span>
-				  	</div>
+          <div class="registro1">
+  					<div class="row">
+  					    <form class="col s12" id="formRegistro" method="post" name="formulario">
+  							<div class="row">
+  								<div class="input-field col s6">
+  									<input id="nombre" name="nombre" type="text" class="validate">
+  									<label for="nombre">Nombre</label>
+  								</div>
+  								<div class="input-field col s6">
+  									<input id="apellidos" name="apellidos" type="text" class="validate">
+  									<label for="apellidos">Apellidos</label>
+  								</div>
+  							</div>
+  						    <div class="row">
+  						        <div class="input-field col s12">
+  						          <input id="email" name="email" type="email" class="validate">
+  						          <label for="email">Email</label>
+  						        </div>
+  						    </div>
+  					      	<div class="row">
+  						        <div class="input-field col s12">
+  						          <input id="tockname" name="tockname" type="text" class="validate">
+  						          <label for="tockname">Tockname</label>
+  						        </div>
+  					      	</div>
+  					      	<div class="row">
+  						        <div class="input-field col s12">
+  						          <input id="password" name="password" type="password" class="validate">
+  						          <label for="password">Contraseña</label>
+  						        </div>
+  					      	</div>
+  					      	<div class="row">
+  						        <div class="input-field col s12">
+  						          <input id="confirmaPassword" name="confirmaPassword" type="password" class="validate">
+  						          <label for="confirmaPassword">Confirmar Contraseña</label>
+  						        </div>
+  					      	</div>
+  					      	<div class="row">
+  						        <div class="input-field col s12">
+  						          <input id="fechaNacimiento" name="fechaNacimiento" type="text" class="datepicker">
+  						          <label for="fechaNacimiento">Fecha de nacimiento</label>
+  						        </div>
+  					      	</div>
+  					      	<div class="row">
+      								<div class="input-field col s12">
+      									<label>Sexo</label>
+      								</div>
+      								<div class="input-field col s6">
+      									<p>
+      								      <label>
+      								        <input name="grupoSexo" class="radio" value="Hombre" type="radio" />
+      								        <span>Maculino</span>
+      								      </label>
+      								    </p>
+      								</div>
+      								<div class="input-field col s6">
+      								    <p>
+      								      <label>
+      								        <input name="grupoSexo" class="radio" value="Mujer" type="radio" />
+      								        <span>Femenino</span>
+      								      </label>
+      								    </p>
+      									</div>
+  					      	</div>
+  					    </form>
+                <div class="container">
+                  <div class="row">
+                    <button class="col s12 btn waves-effect waves-light" id="btnRegistrar">Siguiente</button>
+                  </div>
+                </div>
+  						<span id="resultado"></span>
+  				  	</div>
+            </div>
+            <div class="registro2">
+            <div class="row">
+              <p align="center">Seleccione el tipo de sitio que le gustaría visitar</p>
+                  <?php
+                    $sql="SELECT * FROM tipositio;";
+                    $result=mysqli_query($conexion, $sql);
+                    while($ver =mysqli_fetch_row($result))
+                    {
+                  ?>
+                  <div class="col s12 m6 l4">
+                    <div class="card">
+                      <div class="card-image">
+                        <img class="activator" src="<?php echo $ver[3] ?>">
+                        <a class="btn-floating halfway-fab waves-effect waves-light greenLight boton" id="<?php echo $ver[0] ?>"><i class="material-icons">add</i></a>
+                      </div>
+                      <div class="card-content">
+                        <span class="card-title activator grey-text text-darken-4"><?php echo $ver[1] ?>
+                        </span>
+                      </div>
+                      <div class="card-reveal">
+                        <span class="card-title grey-text text-darken-4"><?php echo $ver[1] ?><i class="material-icons right">close</i></span>
+                        <p><?php echo $ver[2] ?></p>
+                      </div>
+                    </div>
+                  </div>
+                  <?php
+                    } ?>
+                    <div class="container">
+                      <div class="row">
+                        <button class="col s12 btn waves-effect waves-light" id="btnRegistrar2">¡Listo!</button>
+                      </div>
+                    </div>
+                </div>
+            </div>
 				</div>
 			</div>
 		</div>
@@ -295,33 +325,26 @@
 	    </div>
 			   <div style="margin-bottom: 100px;">
 		    </div>
-        <div class="row container">
-          <?php
-            $sql="SELECT nombre, foto, idDestino, pais from destino INNER JOIN pertenece on idDestino = Destino_idDestino GROUP BY nombre HAVING COUNT(*) > 1 OR destino.idDestino=5";
-            $result=mysqli_query($conexion, $sql);
-            while($ver =mysqli_fetch_row($result))
-            {
-          ?>
-          <div class="col l4">
-            <div class="card">
-                <div class="card-image">
-                  <img class="activator" src="<?php echo $ver[1] ?>">
-                </div>
-                <div class="card-content">
-                  <span class="card-title activator grey-text text-darken-4"><?php echo $ver[0] ?><i class="material-icons right">more_vert</i></span>
-                  <p><a style="color:#1faa00; " href="muestraDestino.php?id=<?php echo $ver[2]?>" target="_blank">Detalles</a></p>
-                </div>
-                <div class="card-reveal">
-                  <span class="card-title grey-text text-darken-4"><?php echo $ver[0] ?><i class="material-icons right">close</i></span>
-                  <p>Pais: <?php echo $ver[3] ?></p>
-                  <p>Calificacion: pendiente*</p>
-                  <p>ID <?php echo $ver[2] ?></p>
+        <div class="container">
+          <div class="row">
+            <div class="input-field offset-l4 offset-m4 col s12 m6 l6">
+              <i class="material-icons prefix">search</i>
+              <input id="buscador" type="text">
+            </div>
+            <div class="input-field col offset-s3 s9 m2 l2">
+              <a class="waves-effect waves-light btn" id="btnTendencia">Tendencias</a>
+            </div>
+
+          </div>
+        </div>
+        <div class="container">
+          <div style="margin: 0px 0px 80px 0px; ">
+            <div class="contenedor">
+                <div class="row" id="destinos">
                 </div>
               </div>
           </div>
-          <?php }  ?>
         </div>
-
 		<!-- Footer -->
 		<footer class="page-footer">
 			<div class="container">
@@ -336,10 +359,9 @@
 					<div class="col l3 offset-l2 s12">
 						<h5 class="black-text">Links</h5>
 						<ul id="links">
-						  	<li><a href="#">Buscador</a></li>
-						    <li><a href="#">Casa</a></li>
-						    <li><a href="#">Destinos</a></li>
-						    <li><a href="#">Iniciar sesión</a></li>
+						    <li><a class="homeScroll">Casa</a></li>
+						    <li><a class="destinosScroll">Destinos</a></li>
+						    <li><a href="#modal1" class="modal-trigger">Iniciar sesión</a></li>
 						    <li><a href="#">Acerca de </a></li>
 						</ul>
 					</div>
