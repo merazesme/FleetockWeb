@@ -170,12 +170,27 @@
     </nav>
     <div class="page-header header-filter" data-parallax="true" style="background-image: url('../Imagenes/portada.jpg');"></div>
     <div class="main main-raised">
+      <!-- The actual snackbar -->
+      <div id="agrega">Agregado al Wish List</div>
+      <div id="elimina">Eliminado del Wish List</div>
       <?php
         $sql="SELECT nombre, pais, foto, round(avg(calificacion)) FROM destino inner join comentarios on comentarios.destino_idDestino= destino.idDestino WHERE idDestino='$destino';";
         $result=mysqli_query($conexion, $sql);
         $imagen='';
         while($ver =mysqli_fetch_row($result))
-        { $imagen=$ver[2];
+        { // Para saber si ya esta en el Wish List
+          $wish='SELECT * FROM deseos WHERE destino_idDestino='.$destino.' AND usuario_idUsuario='.$usuario.';';
+          $buscarDestinoWish = $conexion->query($wish);
+          if ( $buscarDestinoWish->num_rows > 0 )
+          { $clase='purple';
+            $icono='favorite';
+          }
+          else
+          { $clase='green';
+            $icono='add';
+          }
+          $imagen=$ver[2];
+          // Poner estrellitas en la calificacion
           $calificacion2='';
           if ($ver[3]!=NULL)
             {
@@ -214,6 +229,9 @@
           <div class="row">
             <div class="col-lg-6">
               <img style="width: 100%;height: 100%;" src="../<?= $imagen ?>">
+              <a style="position:absolute; margin-left:80%; margin-top:-20px;" id="<?php echo $destino ?>" class="btn btn-fab btn-round <?php echo $clase ?>">
+              <i class="material-icons" style="color:white;"><?php echo $icono ?></i>
+            </a>
             </div>
             <div class="col-lg-6">
               <a style="font-family:Roboto; font-size:18px; margin-top: 35px;">
@@ -268,7 +286,7 @@
               </div>
             </div>
           </div>
-          <div class="row">
+          <div class="row container">
             <a style="font-family:Roboto; font-size:18px; margin-top: 35px;">
             <i style="color:#6a1b9a;" class="material-icons">collections</i>
             Actividades
@@ -310,7 +328,7 @@
                 }
               ?>
           </div>
-          <div class="row">
+          <div class="row container">
             <a style="font-family:Roboto; font-size:18px; margin-top: 35px;">
             <i style="color:#6a1b9a;" class="material-icons">airport_shuttle</i>
             Transportes
@@ -368,5 +386,50 @@
     <script src="../assets/js/plugins/jquery.sharrre.js" type="text/javascript"></script>
     <!-- Control Center for Material Kit: parallax effects, scripts for the example pages etc -->
     <script src="../assets/js/material-kit.js?v=2.0.4" type="text/javascript"></script>
+    <script type="text/javascript">
+    var id; // Variable para guardar el id del destino que se quiere agregar o quitar del wish list
+    $('.btn-fab').click(function()
+    {   var datos="ide="+$(this).attr("id")+"&usuario=<?php echo $usuario ?>"; // Se concatenan los datos que se mandaran
+        id=$(this).attr("id"); // Se asigna el id del destino
+        var mensaje="";
+        if($(this).hasClass('purple')) // Si el destino tiene esta clase(purple) quiere decir que ya esta en el wish list y ahora se desea aliminar de este
+        { datos+="&ban=1";
+          mensaje="elimina";
+        }
+        else // Si el destino tiene esta clase(green) quiere decir que se agregara al wish list
+        { datos+="&ban=0";
+          mensaje="agrega";
+        }
+        $.ajax({ // Se mandan los datos al modelo
+            url: 'modeloWishList.php',
+            type: 'POST',
+            data: datos,
+            success: function(r)
+            {   if(r==1)
+                { myFunction(mensaje);
+                  agregaClase(id,mensaje);
+                }
+            }
+        });
+      });
+      function agregaClase(id,opc) // Cambia la clase del boton si se agrega/elimina exitosamente de la base de datos
+      { if(opc=="agrega")
+        { $("#"+id+"").removeClass('green').addClass('purple');
+          $("#"+id+"").html('<i class="material-icons" style="color:white;">favorite</i>');
+        }
+        else
+        { $("#"+id+"").removeClass('purple').addClass('green');
+          $("#"+id+"").html('<i class="material-icons" style="color:white;">add</i>');
+        }
+      }
+      function myFunction(opc)
+      { console.log(opc);
+        var x = document.getElementById(opc);
+        // Add the "show" class to DIV
+        x.className = "show";
+        // After 3 seconds, remove the show class from DIV
+        setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+      }
+    </script>
 </body>
 </html>
