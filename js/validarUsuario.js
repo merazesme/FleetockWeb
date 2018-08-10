@@ -20,7 +20,7 @@ $(document).ready(function()
         }
         else
         {
-            var datos = $('#formLogin').serialize();
+            var datos = $('#formLogin').serialize()+'&ban=0';
 
             $.ajax({
                 url: 'php/modeloLogin.php',
@@ -35,12 +35,12 @@ $(document).ready(function()
                         $('#resultadoLogin').html("No existe el usuario");
                     }else {
                         {
-                            var x = r.split(",");
-                            var login = x[0];
-                            var usuario = x[1];
-                            console.log(login);
-                            console.log(usuario);
-                            window.location.href = "php/Perfil.php?v1="+login+"&v2="+usuario;
+                            //var x = r.split(",");
+                            //var login = x[0];
+                            //var usuario = x[1];
+                            //console.log(login);
+                            //console.log(usuario);
+                            window.location.href = "php/Perfil.php";
                         }
                     }
                 }

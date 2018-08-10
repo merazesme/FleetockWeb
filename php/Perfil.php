@@ -1,17 +1,23 @@
 <?php
-//incluimos el script php de funciones y conexion a la bd
-    include('consultasUsuarios.php');
-    if($errorConexion == false)
-    {
-        $login=$_GET['v1'];
-        $usuario=$_GET['v2'];
-        $consultaFoto = consultarFoto($mysqli, $usuario, $login);
-        $viajes = mostrarViajes($mysqli, $usuario);
-    }
-    $ruta = substr($consultaFoto[4], 25);
-    if ($ruta == "") {
-        $ruta = "Imagenes/Usuarios/default.png";
-    }
+    session_start();
+    if (isset($_SESSION['idUsuario']))
+    { //incluimos el script php de funciones y conexion a la bd
+      include('consultasUsuarios.php');
+      $datos=$_SESSION['idUsuario'];
+      if($errorConexion == false)
+      {
+          $m=explode(',', $datos);
+          $login=$m[0];
+          $usuario=$m[1];
+          $consultaFoto = consultarFoto($mysqli, $usuario, $login);
+          $viajes = mostrarViajes($mysqli, $usuario);
+      }
+      $ruta = substr($consultaFoto[4], 25);
+      if ($ruta == "") {
+          $ruta = "Imagenes/Usuarios/default.png";
+      }
+  }else
+    echo "<script type='text/javascript'>window.location.href = '../login.php';</script>";
 ?>
 
 <!DOCTYPE html>
@@ -59,12 +65,12 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="<?php echo "agregarDestinosWishList.php?v1=$login&v2=$usuario" ?>" onclick="">
+                            <a class="nav-link" href="agregarDestinosWishList.php">
                                 <i class="material-icons">place</i> Destinos
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="<?php echo "muestraWishList.php?v1=$login&v2=$usuario" ?>" onclick="">
+                            <a class="nav-link" href="muestraWishList.php">
                                 <i class="material-icons">favorite</i> Wish List
                             </a>
                         </li>
@@ -79,7 +85,7 @@
                                 <a href="#" class="dropdown-item">
                                     <i class="material-icons">help</i> Ayuda
                                 </a>
-                                <a href="../login.php" class="dropdown-item">
+                                <a href="salir.php" class="dropdown-item">
                                     <i class="material-icons">exit_to_app</i> Logout
                                 </a>
                             </div>
@@ -194,7 +200,7 @@
                                 <div class="card" style="width: 100%; height: 360px;">
                                 <div class="card-img-top">
                                 <img style="width: 100%; height: 200px;" src="../'.$ruta.'">
-                                <a href="detalleViaje.php?v='.$array[1].'&v1='.$login.'&v2='.$usuario.'&d='.$destinos.'" style="position:absolute; margin-left:80%; margin-top:-20px;" class="btn btn-fab btn-round">
+                                <a style="position:absolute; margin-left:80%; margin-top:-20px; color:white;" id="'.$array[1].'&d='.$destinos.'" class="btn btn-fab btn-round detalles">
                                 <i class="material-icons">local_play</i>
                                 </a>
                                 </div>
@@ -247,7 +253,21 @@
         <script src="../assets/js/plugins/jquery.sharrre.js" type="text/javascript"></script>
         <!-- Control Center for Material Kit: parallax effects, scripts for the example pages etc -->
         <script src="../assets/js/material-kit.js?v=2.0.4" type="text/javascript"></script>
-
+        <script type="text/javascript">
+          //detalleViaje.php?v='.$array[1].'&v1='.$login.'&v2='.$usuario.'&d='.$destinos.'
+          $('.detalles').click(function()
+          { var datos="u="+<?php echo $usuario ?>+'&l='+<?php echo $login ?>+'&a='+$(this).attr("id");
+            $.ajax({ // Se mandan los datos al modelo
+                url: 'viajes.php',
+                type: 'POST',
+                data: datos,
+                success: function(r)
+                {
+                  window.location.href = 'detalleViaje.php';
+                }
+            });
+        });
+        </script>
     </body>
 
 </html>

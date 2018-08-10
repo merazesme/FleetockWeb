@@ -1,23 +1,28 @@
 
 <?php
-//incluimos el script php de funciones y conexion a la bd
+  session_start();
+  if (isset($_SESSION['idUsuario']))
+  { //incluimos el script php de funciones y conexion a la bd
     include('consultasUsuarios.php');
-
+    $datos=$_SESSION['idUsuario'];
     if($errorConexion == false)
     {
-        $idViaje=$_GET['v'];
+        $m=explode(',', $datos);
+        $idViaje=$m[2];
         $datos = detalleViaje($mysqli, $idViaje);
         $estilo = jalarEstiloViaje($mysqli, $datos[5]);
         $datos[5]=$estilo[1];
-        $login=$_GET['v1'];
-        $usuario=$_GET['v2'];
-        $idDestinos=$_GET['d'];
+        $login=$m[1];
+        $usuario=$m[0];
+        $idDestinos=$m[3];
         $consultaFoto = consultarFoto($mysqli, $usuario, $login);
         $viajes = mostrarViajes($mysqli, $usuario);
     }
     else{
     }
     $ruta = substr($consultaFoto[4], 25);
+  }else
+    echo "<script type='text/javascript'>window.location.href = '../login.php';</script>";
 ?>
 
 <!DOCTYPE html>
@@ -57,17 +62,17 @@
                 <div class="collapse navbar-collapse">
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="<?php echo "Perfil.php?v1=$login&v2=$usuario" ?>">
+                            <a class="nav-link" href="Perfil.php">
                                 <i class="material-icons">card_travel</i> Viajes
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="<?php echo "agregarDestinosWishList.php?v1=$login&v2=$usuario" ?>" onclick="">
+                            <a class="nav-link" href="agregarDestinosWishList.php">
                                 <i class="material-icons">place</i> Destinos
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="<?php echo "wishlist.php?v1=$login&v2=$usuario" ?>" onclick="">
+                            <a class="nav-link" href="muestraWishList.php">
                                 <i class="material-icons">favorite</i> Wish List
                             </a>
                         </li>
@@ -82,7 +87,7 @@
                                 <a href="#" class="dropdown-item">
                                     <i class="material-icons">help</i> Ayuda
                                 </a>
-                                <a href="../login.php" class="dropdown-item">
+                                <a href="salir.php" class="dropdown-item">
                                     <i class="material-icons">exit_to_app</i> Logout
                                 </a>
                             </div>

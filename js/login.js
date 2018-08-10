@@ -54,8 +54,8 @@ $(document).ready(function(){
 	var imgPos = 1;
 	$('.sliderhead li').hide();
 	$('.sliderhead li:first').show();
-	$('.right1 span').click(nextSlider);
-	$('.left1 span').click(prevSlider);
+	$('.rightArrow span').click(nextSlider);
+	$('.leftArrow span').click(prevSlider);
 	/*setInterval(function()
 	{
 		nextSlider();

@@ -129,8 +129,6 @@
                 </div>
               </li>
             </ul>
-
-
           </div>
           <div class="col s12 m12 l6">
             <ul class="collapsible">

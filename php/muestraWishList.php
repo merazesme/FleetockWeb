@@ -1,15 +1,22 @@
 
 <?php
-    //incluimos el script php de funciones y conexion a la bd
-    include('consultasUsuarios.php');
-
-    if($errorConexion == false)
-    {
-        $login=$_GET['v1'];
-        $usuario=$_GET['v2'];
-    }
-    else{
-    }
+    session_start();
+    if (isset($_SESSION['idUsuario']))
+    { //incluimos el script php de funciones y conexion a la bd
+      include('consultasUsuarios.php');
+      include('conexion.php');
+      $conexion=conexion();
+      if($errorConexion == false)
+      { session_start();
+        $datos=$_SESSION['idUsuario'];
+        $m=explode(',', $datos);
+        $login=$m[0];
+        $usuario=$m[1];
+      }
+      else{
+      }
+    }else
+      echo "<script type='text/javascript'>window.location.href = '../login.php';</script>";
 ?>
 
 <!DOCTYPE html>
@@ -107,12 +114,12 @@
                 <div class="collapse navbar-collapse">
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="<?php echo "Perfil.php?v1=$login&v2=$usuario" ?>">
+                            <a class="nav-link" href="Perfil.php">
                                 <i class="material-icons">card_travel</i> Viajes
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="<?php echo "agregarDestinosWishList.php?v1=$login&v2=$usuario" ?>" onclick="">
+                            <a class="nav-link" href="agregarDestinosWishList.php">
                                 <i class="material-icons">place</i> Destinos
                             </a>
                         </li>
@@ -132,7 +139,7 @@
                                 <a href="#" class="dropdown-item">
                                     <i class="material-icons">help</i> Ayuda
                                 </a>
-                                <a href="../login.php" class="dropdown-item">
+                                <a href="salir.php" class="dropdown-item">
                                     <i class="material-icons">exit_to_app</i> Logout
                                 </a>
                             </div>
@@ -150,7 +157,23 @@
                 </div>
                 <div class="container">
                       <div class="form-row align-items-right">
-                         <div class="offset-lg-4 col-lg-8">
+                        <div class="col-lg-2">
+                           <select class="form-control" id="selectTipoSitio" onchange="muestra();">
+                             <option>Todos</option>
+                             <?php
+                             $query="SELECT idTipoSitio,tipo FROM tipositio;";
+                             $tipos = $conexion->query($query);
+                             if ( $tipos->num_rows > 0 )
+                             { while ($fila = $tipos->fetch_assoc())
+                               {
+                             ?>
+                             <option value="<?php echo $fila['idTipoSitio'] ?>" class="hola"><?php echo $fila['tipo'] ?></option>
+                            <?php
+                                }
+                              } ?>
+                           </select>
+                       </div>
+                         <div class="col-lg-10">
                            <div class="input-group">
                              <div class="input-group-prepend">
                                <div class="input-group-text"><i class="material-icons">search</i></div>
@@ -159,7 +182,6 @@
                            </div>
                          </div>
                       </div>
-
                     <div class="cargar">
 
                     </div>
@@ -180,10 +202,15 @@
         <!-- Control Center for Material Kit: parallax effects, scripts for the example pages etc -->
         <script src="../assets/js/material-kit.js?v=2.0.4" type="text/javascript"></script>
         <script type="text/javascript">
-        $('.cargar').load("WishList.php?usuario=<?php echo $usuario ?>");
+        var tipo='Todos';
+        $('.cargar').load("WishList.php?usuario=<?php echo $usuario ?>&opcion=5");
         $("#buscador").keyup(function(){
             var buscar = $("#buscador").val().replace(' ', '%20');
-            var data="buscar="+buscar+"&opcion=1&usuario=<?php echo $usuario ?>";
+            var data="buscar="+buscar+"&usuario=<?php echo $usuario ?>";
+            if(tipo!='Todos')
+              data+="&opcion=6&filtro="+tipo;
+            else
+              data+="&opcion=5";
             $.ajax({
               url: "Destinos.php",
               type:"POST",
@@ -194,6 +221,13 @@
               }
             });
         });
+        function muestra()
+        { tipo=$('#selectTipoSitio').val();
+          if(tipo != 'Todos')
+            $('.cargar').load("Destinos.php?opcion=6&filtro="+tipo+"&usuario=<?php echo $usuario ?>");
+          else
+            $('.cargar').load("Destinos.php?opcion=5&usuario=<?php echo $usuario ?>");
+        }
         </script>
     </body>
 

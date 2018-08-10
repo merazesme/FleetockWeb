@@ -88,8 +88,7 @@ return false;
     });
     var usuario;
     $('#btnRegistrar').click(function(e){
-      $('.registro2').show('slow');
-      $('.registro1').hide('slow');
+
         var nombre = $('#nombre').val();
         var apellido = $('#apellido').val();
         var email = $('#email').val();
@@ -107,7 +106,7 @@ return false;
        }
         else if(password == confirmaPassword)
         {
-            var datos = $('#formRegistro').serialize()+"&ide=0";
+            var datos = $('#formRegistro').serialize()+"&ban=0";
 
             $.ajax({
                 url: '../FleetockWeb/php/modeloRegistro.php',
