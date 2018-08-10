@@ -59,4 +59,16 @@ $('.btn-fab').click(function()
     // After 3 seconds, remove the show class from DIV
     setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
   }
+  $('.detalles').click(function()
+  { var idDestino="id="+$(this).attr("id")+'&band=destino';
+    $.ajax({ // Se mandan los datos al modelo
+        url: 'viajes.php',
+        type: 'POST',
+        data: idDestino,
+        success: function(r)
+        {
+          window.location.href = 'detallesDestino.php';
+        }
+    });
+  });
 </script>

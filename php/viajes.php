@@ -1,12 +1,14 @@
 <?php
-
-$u=$_POST['u'];
-$l=$_POST['l'];
-$a=$_POST['a'];
-$d=$_POST['d'];
-$cadena=$l.','.$u.','.$a.','.$d;
-session_start();
-$_SESSION['idUsuario']=$cadena;
-//header('Location: detalleViaje.php');
-echo 1;
+  session_start();
+  if ($_POST['band']=='viaje')
+  { $a=$_POST['a'];
+    $d=$_POST['d'];
+    $cadena= $_SESSION['idUsuario'].','.$a.','.$d;
+  }
+  else if($_POST['band']=='destino')
+  {
+    $cadena= $_SESSION['idUsuario'].','.$_POST['id'];
+  }
+  $_SESSION['idUsuario']=$cadena;
+  echo $_SESSION['idUsuario'];
 ?>

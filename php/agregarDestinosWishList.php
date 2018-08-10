@@ -1,4 +1,3 @@
-
 <?php
   session_start();
   if (isset($_SESSION['idUsuario']))
@@ -15,6 +14,7 @@
     }
     else{
     }
+    $_SESSION['idUsuario']="$login,$usuario"; // Se limpia la variable de logeo, ya que tenia concatenados otros camppos
   }else
     echo "<script type='text/javascript'>window.location.href = '../login.php';</script>";
 ?>
@@ -26,9 +26,7 @@
 <meta charset="utf-8" />
 <link rel="icon" type="image/png" href="../Imagenes/logo_50px.png">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-<title>
-Perfil
-</title>
+<title>Destinos</title>
 <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
 <!--Import materialize.css-->
 

@@ -86,18 +86,18 @@ function muestraDestinos($buscar,$opcion,$usuario,$filtro){
           {
             for ($x=0; $x<5; $x++){
               if($calificacion>0){
-                $calificacion2.='<span class="material-icons" style="size:10px;">star</span>';
+                $calificacion2.='<span class="material-icons">star</span>';
                 $calificacion=$calificacion-1;
               }else
-                  $calificacion2.='<span class="material-icons" style="size:10px;">star_border</span>';
+                  $calificacion2.='<span class="material-icons">star_border</span>';
               }
           }
         else
-          $calificacion2='<span class="material-icons" style="size:10px;">star_border</span>
-          <span class="material-icons" style="size:10px;">star_border</span>
-          <span class="material-icons" style="size:10px;">star_border</span>
-          <span class="material-icons" style="size:10px;">star_border</span>
-          <span class="material-icons" style="size:10px;">star_border</span>';
+          $calificacion2='<span class="material-icons">star_border</span>
+          <span class="material-icons">star_border</span>
+          <span class="material-icons">star_border</span>
+          <span class="material-icons">star_border</span>
+          <span class="material-icons">star_border</span>';
 
         // Se crea el contenido
         if($col==0)
@@ -116,7 +116,7 @@ function muestraDestinos($buscar,$opcion,$usuario,$filtro){
                       <p class=" card-text center-align">'.$fila['pais'].'</p>
                       '.$calificacion2.'
                       <br>
-                      <a href="#">Detalles</a>
+                      <a class="detalles" id="'.$fila['idDestino'].'" href="#">Detalles</a>
                     </div>
                   </div>
                 </div>';

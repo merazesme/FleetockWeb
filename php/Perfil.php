@@ -16,6 +16,7 @@
       if ($ruta == "") {
           $ruta = "Imagenes/Usuarios/default.png";
       }
+      $_SESSION['idUsuario']="$login,$usuario"; // Se limpia la variable de logeo, ya que tenia concatenados otros camppos
   }else
     echo "<script type='text/javascript'>window.location.href = '../login.php';</script>";
 ?>
@@ -169,11 +170,12 @@
 
                                     }else
                                     { //si solo tiene un destino
-                                        $aDestinos = array(
+                                        $c = array(
                                             1 => $r['idDestino'],
                                             2  => $r['foto'],
                                             3  => $r['lugar']
                                         );
+                                        $destinos=$c[1];
                                         $destinoFinal=$aDestinos[3];
                                     }
                                 }
@@ -200,7 +202,7 @@
                                 <div class="card" style="width: 100%; height: 360px;">
                                 <div class="card-img-top">
                                 <img style="width: 100%; height: 200px;" src="../'.$ruta.'">
-                                <a style="position:absolute; margin-left:80%; margin-top:-20px; color:white;" id="'.$array[1].'&d='.$destinos.'" class="btn btn-fab btn-round detalles">
+                                <a style="position:absolute; margin-left:80%; margin-top:-20px; color:white;" id="a='.$array[1].'&d='.$destinos.'" class="btn btn-fab btn-round detalles">
                                 <i class="material-icons">local_play</i>
                                 </a>
                                 </div>
@@ -256,13 +258,14 @@
         <script type="text/javascript">
           //detalleViaje.php?v='.$array[1].'&v1='.$login.'&v2='.$usuario.'&d='.$destinos.'
           $('.detalles').click(function()
-          { var datos="u="+<?php echo $usuario ?>+'&l='+<?php echo $login ?>+'&a='+$(this).attr("id");
+          { var datos=$(this).attr("id")+'&band=viaje';
             $.ajax({ // Se mandan los datos al modelo
                 url: 'viajes.php',
                 type: 'POST',
                 data: datos,
                 success: function(r)
                 {
+                  //console.log(r);
                   window.location.href = 'detalleViaje.php';
                 }
             });

@@ -9,12 +9,14 @@
     {
         $m=explode(',', $datos);
         $idViaje=$m[2];
+        //echo $idViaje;
         $datos = detalleViaje($mysqli, $idViaje);
         $estilo = jalarEstiloViaje($mysqli, $datos[5]);
         $datos[5]=$estilo[1];
         $login=$m[1];
         $usuario=$m[0];
         $idDestinos=$m[3];
+        //echo $idDestinos;
         $consultaFoto = consultarFoto($mysqli, $usuario, $login);
         $viajes = mostrarViajes($mysqli, $usuario);
     }
