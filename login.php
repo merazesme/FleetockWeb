@@ -15,9 +15,10 @@
 		<title>Fleetock</title>
 	    <link rel="stylesheet" href="css/materialize.css">
 	    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-
 	    <link href="https://fonts.googleapis.com/css?family=Leckerli+One|Lobster|Neucha|Merienda:700|Raleway:600" rel="stylesheet">
 	    <link rel="stylesheet" href="css/login.css">
+      <script src="js/jquery.js"></script>
+  	  <script src="js/materialize.js"></script>
 	</head>
 	<body>
 		<header>
@@ -78,6 +79,10 @@
         <div class="rightArrow">
           <span> <i class="material-icons">navigate_next</i></span>
         </div>
+        <script type="text/javascript">
+          $('.sliderhead li').hide();
+          $('.sliderhead li:first').show();
+        </script>
       </div>
 		</header>
 		<div id="modal1" class="modal">
@@ -310,8 +315,6 @@
 				</div>
 			</div>
 		</footer>
-		<script src="js/jquery.js"></script>
-	  <script src="js/materialize.js"></script>
 		<script type="text/javascript" src="js/login.js"></script>
 		<script type="text/javascript" src="js/registrarUsuario.js"></script>
 		<script type="text/javascript" src="js/validarUsuario.js"></script>

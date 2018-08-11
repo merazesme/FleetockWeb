@@ -8,37 +8,47 @@
 <head>
   <meta charset="utf-8">
   <title>Fleetock</title>
+    <link rel="icon" type="image/png" href="Imagenes/logo_50px.png">
     <link rel="stylesheet" href="css/materialize.css">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
     <link href="https://fonts.googleapis.com/css?family=Leckerli+One|Lobster|Neucha|Merienda:700|Raleway:600" rel="stylesheet">
     <link rel="stylesheet" href="css/login.css">
     <style media="screen">
-
       nav
-      {
-
-      	background-color: #38006b;
-
+      {background-color: #38006b;
       }
-
       .contenedor {
-        width: 450px;
-        	height: 400px;
-          padding-left: 10px;
+          width: 107%;
+        	height: 448px;
+          margin-left: -2%;
+          margin-top: -10px;
           padding-right: 10px;
         	background: #fff;
         	overflow: auto;
-        	font-family: 'Open Sans';
-
-}
-
+      }
       .contenedor::-webkit-scrollbar {
       	width: 7px;
       }
-
       .contenedor::-webkit-scrollbar-thumb {
       	background: #1faa00;
       	border-radius: 5px;
+      }
+      .mensaje
+      { text-align: center;
+        padding: 25px;
+        font-weight:bold;
+        color:#3C4858;
+      }
+      #circulo
+      { width:70px;
+        border-radius:50%;
+        height:45px;
+        margin-left:-10px;
+      }
+      #comentario
+      { font-size: 14px;
+        margin-left:-10px;
+        margin-top:5px;
       }
     </style>
 </head>
@@ -49,7 +59,7 @@
 					<a href="#" class="brand-logo"><img src="Imagenes/LogoFleetock.png" style="margin-left:30%;"></a>
 					<a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
 					<ul class="right hide-on-med-and-down">
-						<li><a class="homeScroll"><i class="material-icons left">home</i>Casa</a></li>
+						<li><a href="login.php" class="homeScroll"><i class="material-icons left">home</i>Casa</a></li>
 						<li><a class="destinosScroll"><i class="material-icons left">place</i>Destinos</a></li>
 						<li><a href="#modal1" class="modal-trigger"><i class="material-icons left">person</i>Iniciar sesión</a></li>
 						<li><a href="#"><i class="material-icons left">work</i>Acerca de </a></li>
@@ -57,7 +67,7 @@
 				</div>
 			</nav>
 			<ul class="sidenav" id="mobile-demo">
-			    <li><a class="homeScroll"><i class="material-icons left">home</i>Casa</a></li>
+			    <li><a href="login.php" class="homeScroll"><i class="material-icons left">home</i>Casa</a></li>
 			    <li><a class="destinosScroll"><i class="material-icons left">place</i>Destinos</a></li>
 			    <li><a href="#modal1" class="modal-trigger"><i class="material-icons left">person</i>Iniciar sesión</a></li>
 			    <li><a href="#"><i class="material-icons left">work</i>Acerca de </a></li>
@@ -206,9 +216,9 @@
 		</div>
     <div style="width: 100px; height: 100px; ">
     </div>
-    <div class="container">
+    <div style="margin-left:10%; margin-right:10%;">
       <div class="row">
-          <div class="col s12 m12 l6">
+          <div class="col s12 m12 l6" style="margin-left: -10px;">
             <?php
               $sql="SELECT nombre, pais, foto, round(avg(calificacion),1) FROM destino inner join comentarios on comentarios.destino_idDestino= destino.idDestino WHERE idDestino='$destino';";
               $result=mysqli_query($conexion, $sql);
@@ -232,31 +242,31 @@
                   <span class="material-icons">star_border</span>
                   <span class="material-icons">star_border</span>';
             ?>
-            <div class="card" style="margin: 0px 0px -5px 0px;">
+            <div class="card" style="width:110%;">
               <div class="card-image">
                 <img style="width: 100%;height: 50%;"src="<?php echo $ver[2] ?>">
               </div>
               <div class="card-content">
-                <span class="card-title"><?php echo $ver[0] ?></span>
+                <h6><strong><?php echo $ver[0] ?></strong></h6>
                 <p><?php echo $ver[1] ?></p>
                 <p><?php echo $calificacion2 ?></p>
               </div>
             </div>
             <?php }  ?>
           </div>
-          <div class="col l6">
+          <div class="col m12 s12 l5 offset-l1">
             <div class="row">
-              <i style="color:#6a1b9a;" class="material-icons col l1">speaker_notes</i>
-              <span class="col l11">Comentarios</span>
+              <i style="color:#6a1b9a; margin-left: -10px;" class="material-icons col l2">speaker_notes</i>
+              <span><p style="font-family:Roboto; font-size:18px;"> Comentarios</p></span>
             </div>
             <div class="contenedor">
                 <?php
                   $sql="SELECT titulo,comentario,calificacion,usuario.nombre,fecha,usuario.foto FROM comentarios INNER join usuario on comentarios.usuario_idUsuario=usuario.idUsuario WHERE Destino_idDestino='$destino';";
                   $result=mysqli_query($conexion, $sql);
                   if ( $result->num_rows > 0 ) // Se comprueba el numero de columnas
-                  {
+                  { echo '<ul class="">';
                     while($ver =mysqli_fetch_row($result))
-                    { $fecha= date_format(date_create($ver[4]),'l jS \of F Y ');
+                    { $fecha= date_format(date_create($ver[4]),'d / m / Y G:i a');
                       // Estrellitas de la calificacion de cada usuario que comento
                       $calificacion2='';
                       if ($ver[2]!=NULL)
@@ -276,25 +286,32 @@
                         <span class="material-icons" style="font-size: 18px;color:black;">star_border</span>
                         <span class="material-icons" style="font-size: 18px;color:black;">star_border</span>';
                  ?>
-                 <span class="collection-item avatar">
-                   <img src="<?php echo $ver[5] ?>" alt="" class="circle">
+                 <lis class="collection-item avatar">
                    <p style="font-size: 16px;">
                      <strong><?php echo $ver[0]?></strong>
-                     <span style="font-size: 11px; padding-left: 40px; color: #7D7E7C;"><?php echo $fecha ?></span>
+                     <span style="font-size: 11px; padding-left: 50%; color: #7D7E7C;"><?php echo $fecha ?></span>
                    </p>
-                   <p style="font-size: 11px; color: #393939;"><?php echo $ver[3] ?></p>
-                   <p style="font-size: 14px;"><?php echo $ver[1] ?></p>
-                   <p class="secondary-content"><?php echo $calificacion2 ?></p>
-                   <span style="color:#C8C8C8;">_____________________________________________________________</span>
-                 </span>
+                   <span class="row">
+                     <img src="<?php echo $ver[5] ?>" alt="" class="col l6" id="circulo">
+                     <p class="col l6"style="font-size: 12px; color: #393939;"><?php echo $ver[3] ?></p>
+                   </span>
+                   <span class="row">
+                     <span class="col s12 m6 l6" id="comentario"><?php echo $ver[1] ?></span>
+                     <span class="col s12 m6 l6" ><?php echo $calificacion2 ?></span>
+                   </span>
+                   <div class="divider"></div>
+                 </lis>
                <?php
                   }
+                  echo '</ul>';
                 }
                 else
-                { echo '<div class="card container">
-                         <h5 class="info-title" style="text-align: center; padding: 25px;">No se encontraron comentarios</h5>
-                         <i class="material-icons" style="font-size: 40px; margin-left:40%; margin-top:-25px; margin-bottom: 25px;">sentiment_dissatisfied</i>
-                       </div>';
+                { echo '<div class="col l12">
+                        <div class="card">
+                          <p class="mensaje">No se encontraron comentarios</p>
+                          <i class="material-icons" style="font-size: 40px; margin-left:48%; margin-top:-25px; margin-bottom: 25px;">sentiment_dissatisfied</i>
+                        </div>
+                      </div>';
                 }
                ?>
               </div>
@@ -302,8 +319,8 @@
         </div>
         <div class="col s12 m12 l12">
           <div class="row">
-            <i style="color:#6a1b9a;" class="material-icons col l1">toc</i>
-            <span class="col l11">Actividades</span>
+            <i style="color:#6a1b9a;" class="material-icons col l1">collections</i>
+            <span><p style="font-family:Roboto; font-size:18px;">Actividades</p></span>
           </div>
           <div class="row">
             <?php
@@ -314,8 +331,8 @@
                   {
 
               ?>
-              <div class="col s12 m12 l4">
-                <div class="card" style="height:390px; ">
+              <div class="col s12 m6 l4">
+                <div class="card" style="height:398px;">
                   <div class="card-image">
                     <img src="<?php echo $ver[1] ?>">
                   </div>
@@ -330,10 +347,11 @@
                   }
                 }
                 else
-                {
-                  echo '<div class="card container">
-                          <h5 class="info-title" style="text-align: center; padding: 25px;">No se encontraron actividades</h5>
-                          <i class="material-icons" style="font-size: 40px; margin-left:40%; margin-top:-25px; margin-bottom: 25px;">sentiment_dissatisfied</i>
+                { echo '<div class="col l12">
+                          <div class="card">
+                            <p class="mensaje">No se encontraron actividades</p>
+                            <i class="material-icons" style="font-size: 40px; margin-left:48%; margin-top:-25px; margin-bottom: 25px;">sentiment_dissatisfied</i>
+                          </div>
                         </div>';
                 }
               ?>
@@ -341,8 +359,8 @@
           </div>
           <div class="col s12 m12 l12">
             <div class="row">
-              <i style="color:#6a1b9a;" class="material-icons col l1">local_taxi</i>
-              <span class="col l11">Transportes</span>
+              <i style="color:#6a1b9a;" class="material-icons col l1">airport_shuttle</i>
+              <span><p style="font-family:Roboto; font-size:18px;">Transportes</p></span>
             </div>
             <div class="row">
                   <?php
@@ -354,7 +372,7 @@
                       {
 
                   ?>
-                  <div class="col l4">
+                  <div class="col l4 m6 s12">
                     <div class="card">
                       <div class="card-image">
                         <img src="<?php echo $ver[1] ?>">
@@ -368,10 +386,11 @@
                       }
                     }
                     else
-                    {
-                      echo '<div class="card container">
-                              <h5 class="info-title" style="text-align: center; padding: 25px;">No se encontraron transportes</h5>
-                              <i class="material-icons" style="font-size: 40px; margin-left:40%; margin-top:-25px; margin-bottom: 25px;">sentiment_dissatisfied</i>
+                    { echo '<div class="col l12">
+                              <div class="card">
+                                <p class="mensaje">No se encontraron transportes</p>
+                                <i class="material-icons" style="font-size: 40px; margin-left:48%; margin-top:-25px; margin-bottom: 25px;">sentiment_dissatisfied</i>
+                              </div>
                             </div>';
                     }
                     mysqli_close($conexion);
@@ -393,7 +412,7 @@
   					<div class="col l3 offset-l2 s12">
   						<h5 class="black-text">Links</h5>
   						<ul id="links">
-  						    <li><a class="homeScroll">Casa</a></li>
+  						    <li><a href="login.php" class="homeScroll">Casa</a></li>
   						    <li><a class="destinosScroll">Destinos</a></li>
   						    <li><a href="#modal1" class="modal-trigger">Iniciar sesión</a></li>
   						    <li><a href="#">Acerca de </a></li>

@@ -52,8 +52,6 @@ $(document).ready(function(){
 
 	var imgItems = $('.sliderhead li').length;
 	var imgPos = 1;
-	$('.sliderhead li').hide();
-	$('.sliderhead li:first').show();
 	$('.rightArrow span').click(nextSlider);
 	$('.leftArrow span').click(prevSlider);
 	/*setInterval(function()

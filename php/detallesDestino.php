@@ -102,6 +102,9 @@
       height: 400px;
       padding-left: 0px;
       padding-right: 10px;
+      margin-top: 20px;
+      margin-left: -15px;
+      margin-right: 7px;
       background: #fff;
       overflow: auto;
       font-family: 'Open Sans';
@@ -115,6 +118,13 @@
   .contenedor::-webkit-scrollbar-thumb {
     background: #1faa00;
     border-radius: 5px;
+  }
+  #circulo
+  { width:45px;
+    border-radius:50%;
+    height:45px;
+    margin-right:15px;
+    margin-bottom:8px;
   }
 </style>
 </head>
@@ -219,9 +229,7 @@
                 <div class="offset-lg-5 col-lg-3">
                     <?php echo $calificacion2 ?>
                 </div>
-
               </div>
-
             </div>
         </div>
             <?php }  ?>
@@ -230,20 +238,21 @@
             <div class="col-lg-6">
               <img style="width: 100%;height: 100%;" src="../<?= $imagen ?>">
               <a style="position:absolute; margin-left:80%; margin-top:-20px;" id="<?php echo $destino ?>" class="btn btn-fab btn-round <?php echo $clase ?>">
-              <i class="material-icons" style="color:white;"><?php echo $icono ?></i>
-            </a>
+                <i class="material-icons" style="color:white;"><?php echo $icono ?></i>
+              </a>
             </div>
             <div class="col-lg-6">
               <a style="font-family:Roboto; font-size:18px; margin-top: 35px;">
-              <i style="color:#6a1b9a;" class="material-icons">speaker_notes</i>Comentarios
-              <div class="contenedor">
+                <i style="color:#6a1b9a;" class="material-icons">speaker_notes</i> Comentarios
+              </a>
+
                 <?php
                   $sql="SELECT titulo,comentario,calificacion,usuario.nombre,fecha,usuario.foto FROM comentarios INNER join usuario on comentarios.usuario_idUsuario=usuario.idUsuario WHERE Destino_idDestino='$destino';";
                   $result=mysqli_query($conexion, $sql);
                   if ( $result->num_rows > 0 )
-                  {
+                  { echo '<div class="contenedor">';
                     while($ver =mysqli_fetch_row($result))
-                    { $fecha= date_format(date_create($ver[4]),'l jS \of F Y ');
+                    { $fecha= date_format(date_create($ver[4]),'d / m / Y G:i a');
                       $calificacion2='';
                       if ($ver[2]!=NULL)
                         {
@@ -264,34 +273,83 @@
                  ?>
                  <div class="container">
                      <div class="d-flex w-100 justify-content-between">
-                       <h5 class="mb-1"><?php echo $ver[0]?></h5>
+                       <h4 class="mb-1"><strong><?php echo $ver[0]?></strong></h4>
                        <small class="text-muted"><?php echo $fecha ?></small>
                      </div>
+                     <img src="../<?php echo $ver[5] ?>" alt="" id="circulo">
+                     <span class="mb-1" style="font-size:12px;"><?php echo $ver[3] ?></span>
                      <div class="row">
                        <p class="col-md-8 col-lg-8"><?php echo $ver[1] ?></p>
                        <small class="col-md-4 col-lg-4">
                          <?php echo $calificacion2 ?>
                        </small>
                       </div>
-                      <p class="mb-1"><?php echo $ver[3] ?></p>
-                      <span style="color:#C8C8C8;">_____________________________________________________________</span>
+                      <div style="border-top: 1px solid #e0e0e0;"></div>
                   </div>
                 <?php
                     }
+                    echo '</div>';
                   }
-                    else echo '<div class="card container"><h5 class="info-title" style="text-align: center; padding: 25px;">No se encontraron comentarios</h5>
-                          <i class="material-icons" style="font-size: 40px; text-align: center; margin-top:-25px; margin-bottom: 25px;">sentiment_dissatisfied</i>
-                        </div>';
+                    else echo '
+                              <div class="card">
+                                <h5 class="info-title" style="text-align: center; padding: 25px;">No se encontraron comentarios</h5>
+                                <i class="material-icons" style="font-size: 40px; text-align: center; margin-top:-25px; margin-bottom: 25px;">sentiment_dissatisfied</i>
+                              </div>';
                     ?>
-              </div>
+
             </div>
           </div>
-          <div class="row container">
-            <a style="font-family:Roboto; font-size:18px; margin-top: 35px;">
-            <i style="color:#6a1b9a;" class="material-icons">collections</i>
-            Actividades
+          <div class="container">
+            <div class="row">
+              <a style="font-family:Roboto; font-size:18px; margin-top: 35px;">
+                <i style="color:#6a1b9a;" class="material-icons">collections</i> Actividades
+              </a>
+                <?php
+                  $sql="SELECT actividad.nombre, tiene.foto, actividad.descripcion, tiene.localizacion FROM actividad INNER JOIN tiene ON actividad.idActividad = tiene.Actividad_idActividad where tiene.Destino_idDestino = '$destino';";
+                  $result=mysqli_query($conexion, $sql);
+                  if ( $result->num_rows > 0 ) // Se comprueba el numero de columnas
+                  {   $col=0;
+                    while($ver =mysqli_fetch_row($result))
+                    {
+                      if($col==0)
+                        echo '<div class="row">';
+                      $col=$col+1;
+                ?>
+                  <div class="col-md-4 col-sm-12">
+                      <div class="card" style="width: 100%; height: 350px;">
+                          <div class="card-img-top">
+                              <img style="width: 100%; height: 200px;" src="../<?php echo $ver[1] ?>">
+                          </div>
+                          <div class="card-body">
+                              <span class="card-title"><?php echo $ver[0] ?></span>
+                              <p class="card-text"><?php echo $ver[2] ?></p>
+                               <p class="card-text"><?php echo $ver[3] ?></p>
+                          </div>
+                    </div>
+                  </div>
+
+                <?php
+                  if($col==3)
+                  { echo '</div>';
+                    $col=0;
+                  }
+                    }
+                  }
+                  else {
+                    echo '<div class="card container"><h5 class="info-title" style="text-align: center; padding: 25px;">No se encontraron actividades</h5>
+                            <i class="material-icons" style="font-size: 40px; text-align: center; margin-top:-25px; margin-bottom: 25px;">sentiment_dissatisfied</i>
+                          </div>';
+                  }
+                ?>
+            </div>
+          </div>
+          <div class="container">
+            <div class="row">
+              <a style="font-family:Roboto; font-size:18px; margin-top: 35px;">
+                <i style="color:#6a1b9a;" class="material-icons">airport_shuttle</i> Transportes
+              </a>
               <?php
-                $sql="SELECT actividad.nombre, tiene.foto, actividad.descripcion, tiene.localizacion FROM actividad INNER JOIN tiene ON actividad.idActividad = tiene.Actividad_idActividad where tiene.Destino_idDestino = '$destino';";
+                $sql="SELECT transporte.tipo, transporte.foto FROM transporte INNER JOIN sedesplazaen ON transporte.idTransporte = sedesplazaen.Transporte_idTransporte WHERE sedesplazaen.Destino_idDestino = '$destino';";
                 $result=mysqli_query($conexion, $sql);
                 if ( $result->num_rows > 0 ) // Se comprueba el numero de columnas
                 {   $col=0;
@@ -302,14 +360,12 @@
                     $col=$col+1;
               ?>
                 <div class="col-md-4 col-sm-12">
-                    <div class="card" style="width: 100%; height: 350px;">
+                    <div class="card" style="width: 100%; height: 300px;">
                         <div class="card-img-top">
                             <img style="width: 100%; height: 200px;" src="../<?php echo $ver[1] ?>">
                         </div>
                         <div class="card-body">
                             <span class="card-title"><?php echo $ver[0] ?></span>
-                            <p class="card-text"><?php echo $ver[2] ?></p>
-                             <p class="card-text"><?php echo $ver[3] ?></p>
                         </div>
                   </div>
                 </div>
@@ -322,54 +378,13 @@
                   }
                 }
                 else {
-                  echo '<div class="card container"><h5 class="info-title" style="text-align: center; padding: 25px;">No se encontraron actividades</h5>
+                  echo '<div class="card container"><h5 class="info-title" style="text-align: center; padding: 25px;">No se encontraron Transportes</h5>
                           <i class="material-icons" style="font-size: 40px; text-align: center; margin-top:-25px; margin-bottom: 25px;">sentiment_dissatisfied</i>
                         </div>';
                 }
               ?>
+            </div>
           </div>
-          <div class="row container">
-            <a style="font-family:Roboto; font-size:18px; margin-top: 35px;">
-            <i style="color:#6a1b9a;" class="material-icons">airport_shuttle</i>
-            Transportes
-            <?php
-              $sql="SELECT transporte.tipo, transporte.foto FROM transporte INNER JOIN sedesplazaen ON transporte.idTransporte = sedesplazaen.Transporte_idTransporte WHERE sedesplazaen.Destino_idDestino = '$destino';";
-              $result=mysqli_query($conexion, $sql);
-              if ( $result->num_rows > 0 ) // Se comprueba el numero de columnas
-              {   $col=0;
-                while($ver =mysqli_fetch_row($result))
-                {
-                  if($col==0)
-                    echo '<div class="row">';
-                  $col=$col+1;
-            ?>
-              <div class="col-md-4 col-sm-12">
-                  <div class="card" style="width: 100%; height: 300px;">
-                      <div class="card-img-top">
-                          <img style="width: 100%; height: 200px;" src="../<?php echo $ver[1] ?>">
-                      </div>
-                      <div class="card-body">
-                          <span class="card-title"><?php echo $ver[0] ?></span>
-                      </div>
-                </div>
-              </div>
-
-            <?php
-              if($col==3)
-              { echo '</div>';
-                $col=0;
-              }
-                }
-              }
-              else {
-                echo '<div class="card container"><h5 class="info-title" style="text-align: center; padding: 25px;">No se encontraron Transportes</h5>
-                        <i class="material-icons" style="font-size: 40px; text-align: center; margin-top:-25px; margin-bottom: 25px;">sentiment_dissatisfied</i>
-                      </div>';
-              }
-            ?>
-          </div>
-
-
     </div>
     <footer>
     </footer>

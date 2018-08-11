@@ -27,9 +27,7 @@ $(document).ready(function()
                 type: 'post',
                 data: datos,
                 success: function(r)
-                {
-                    console.log(r);
-                    if (r==1) {
+                {   if (r==1) {
                         $('#resultadoLogin').html("Contraseña incorrecta");
                     } else if (r==2){
                         $('#resultadoLogin').html("No existe el usuario");

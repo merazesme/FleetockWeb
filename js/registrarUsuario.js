@@ -114,7 +114,6 @@ return false;
                 data: datos,
                 success: function(r)
                 {
-                    console.log("R: "+r);
                     if (r>-1) {
                         $('#resultado').html("Bienvenido a Fleetock");
                         $('.registro2').show('slow');
@@ -142,7 +141,7 @@ return false;
 					data: datos,
 					success: function(r)
 					{
-							console.log(r);
+							//console.log(r);// Si regresa 1 quiere decir que se realizo exitosamente
 					}
 			});
 			$(this).removeClass('purpleLight').addClass('greenLight');
@@ -157,7 +156,7 @@ return false;
 					data: datos,
 					success: function(r)
 					{
-							console.log(r);
+							//console.log(r);// Si regresa 1 quiere decir que se realizo exitosamente
 					}
 			});
 			$(this).removeClass('greenLight').addClass('purpleLight');
@@ -171,11 +170,9 @@ return false;
           type: 'POST',
           data: datos,
           success: function(r)
-          {
-              if(r>-1)
-              {
-                window.location.href = "php/Perfil.php?v1="+r+"&v2="+usuario;
-              }
+          { if(r>-1)
+            { window.location.href = "php/Perfil.php";
+            }
           }
       });
     });
