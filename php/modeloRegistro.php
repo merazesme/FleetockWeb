@@ -3,7 +3,7 @@
     $conexion=mysqli_connect('localhost','root','','fleetock-bd');
     $conexion->set_charset("utf8");
     $bandera=$_POST['ban'];
-    if($bandera==0)
+    if($bandera==0) // Registra un nuevo usuario
     {
       //datos de la tabla usuarios
       $nombre=$_POST['nombre'];
@@ -89,15 +89,16 @@
       }
     }
     else if($bandera == 3)
-    {
+    { // Entra a la pagina despues de resgistrarse y haber seleccionado los tipos de sitios
       $usuario=$_POST['usuario'];
       $ultimoID="SELECT idLogin FROM login WHERE Usuario_idUsuario=$usuario";
       $resultadoID = mysqli_query($conexion, $ultimoID);
-
       while($temp2 = mysqli_fetch_array($resultadoID))
       {
           $idU = $temp2['idLogin'];
       }
+      session_start();
+      $_SESSION['idUsuario']="$idU,$usuario";//$idU= id del login y $usuario=id del usuario
       echo $idU;
     }
  ?>

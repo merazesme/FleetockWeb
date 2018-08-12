@@ -3,7 +3,8 @@
     $buscar=$_GET['buscar'];
     $opcion=$_GET['opcion'];
     $usuario=$_GET['usuario'];
-    include('modeloWish.php');
+    $filtro=$_GET['filtro'];
+    include('modeloDestino.php');
 
 ?>
 <!DOCTYPE html>
@@ -12,7 +13,7 @@
 <div id="agrega">Agregado al Wish List</div>
 <div id="elimina">Eliminado del Wish List</div>
 <?php
-    muestraWishList($buscar,$opcion,$usuario);
+    muestraDestinos($buscar,$opcion,$usuario,$filtro);
  ?>
 <script type="text/javascript">
 var id;
@@ -50,7 +51,7 @@ $('.btn-fab').click(function(){
 	});
   function agrega(id)
   { $("#"+id+"").removeClass('green').addClass('purple');
-    $("#"+id+"").html('<i class="material-icons" style="color:white;">attach_file</i>');
+    $("#"+id+"").html('<i class="material-icons" style="color:white;">favorite</i>');
   }
   function elimina(id)
   { $("#"+id+"").removeClass('purple').addClass('green');
@@ -59,11 +60,21 @@ $('.btn-fab').click(function(){
   function myFunction(opc)
   {// Get the snackbar DIV
     var x = document.getElementById(opc);
-
     // Add the "show" class to DIV
     x.className = "show";
-
     // After 3 seconds, remove the show class from DIV
     setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
   }
+  $('.detalles').click(function()
+  { var idDestino="id="+$(this).attr("id")+'&band=destino';
+    $.ajax({ // Se mandan los datos al modelo
+        url: 'viajes.php',
+        type: 'POST',
+        data: idDestino,
+        success: function(r)
+        {
+          window.location.href = 'detallesDestino.php';
+        }
+    });
+  });
 </script>

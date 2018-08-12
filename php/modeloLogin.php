@@ -38,8 +38,8 @@
         {
             echo 1;
         }else { //si los datos que ingresaron existen en la bd
-            $datos="$datosUsuario[1],$datosUsuario[2]";
-            echo $datos;
+            session_start();
+            $_SESSION['idUsuario']="$datosUsuario[1],$datosUsuario[2]";
         }
     }else{ //si no existe el usuario
         echo 2;

@@ -99,8 +99,12 @@ return false;
     });
     var usuario;
     $('#btnRegistrar').click(function(e){
+<<<<<<< HEAD
       // $('.registro2').show('slow');
       // $('.registro1').hide('slow');
+=======
+
+>>>>>>> 4aa3c2feaaef76ec182b75f1f962506fbd9b2a38
         var nombre = $('#nombre').val();
         var apellido = $('#apellido').val();
         var email = $('#email').val();
@@ -126,8 +130,12 @@ return false;
                 data: datos,
                 success: function(h)
                 {
+<<<<<<< HEAD
                     console.log(h);
                     if (h>-1) {
+=======
+                    if (r>-1) {
+>>>>>>> 4aa3c2feaaef76ec182b75f1f962506fbd9b2a38
                         $('#resultado').html("Bienvenido a Fleetock");
                         $('.registro2').show('slow');
                         $('.registro1').hide('slow');
@@ -154,7 +162,7 @@ return false;
 					data: datos,
 					success: function(r)
 					{
-							console.log(r);
+							//console.log(r);// Si regresa 1 quiere decir que se realizo exitosamente
 					}
 			});
 			$(this).removeClass('purpleLight').addClass('greenLight');
@@ -169,7 +177,7 @@ return false;
 					data: datos,
 					success: function(r)
 					{
-							console.log(r);
+							//console.log(r);// Si regresa 1 quiere decir que se realizo exitosamente
 					}
 			});
 			$(this).removeClass('greenLight').addClass('purpleLight');
@@ -183,11 +191,9 @@ return false;
           type: 'POST',
           data: datos,
           success: function(r)
-          {
-              if(r>-1)
-              {
-                window.location.href = "php/Perfil.php?v1="+r+"&v2="+usuario;
-              }
+          { if(r>-1)
+            { window.location.href = "php/Perfil.php";
+            }
           }
       });
     });
