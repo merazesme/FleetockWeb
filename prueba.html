@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Fleetock</title>
+	    <link rel="stylesheet" href="css/materialize.css">
+	    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+	</head>
+	<body>
+        <!-- Element Showed -->
+         <a id="menu" class="waves-effect waves-light btn btn-floating" ><i class="material-icons">menu</i></a>
+
+         <!-- Tap Target Structure -->
+         <div class="tap-target" data-target="menu">
+           <div class="tap-target-content">
+             <h5>Title</h5>
+             <p>A bunch of text</p>
+           </div>
+         </div>
+         <a class="btn" id="abrir">abrir</a>
+         <a class="btn" id="cerrar">cerrar</a>
+
+
+		<script src="js/jquery.js"></script>
+	    <script src="js/materialize.js"></script>
+		<script type="text/javascript" src="js/login.js"></script>
+        <script>
+            $("#abrir").click(function(){
+                $('.tab-target').tabTarget('open');
+            });
+        </script>
+	</body>
+</html>

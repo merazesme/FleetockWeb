@@ -1,569 +1,110 @@
 <?php
-    //incluimos el script php de funciones y conexion a la bd
-    include('consultasUsuarios.php');
-    if($errorConexion == false)
+
+    $conexion=mysqli_connect('localhost','root','','fleetock-bd');
+    $conexion->set_charset("utf8");
+    $bandera=$_POST['ban'];
+    if($bandera==0)
     {
-        $login=$_GET['v1'];
-        $usuario=$_GET['v2'];
-        $consultaFoto = consultarFoto($mysqli, $usuario, $login);
-        $viajes = mostrarViajes($mysqli, $usuario);
-    }
-    $ruta = substr($consultaFoto[4], 25);
-?>
-<!DOCTYPE html>
-  <html>
-    <head>
-      <!--Import Google Icon Font-->
-      <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-      <!--Import materialize.css-->
-      <link type="text/css" rel="stylesheet" href="../css/materialize.min.css"  media="screen,projection"/>
+      //datos de la tabla usuarios
+      $nombre=$_POST['nombre'];
+      $apellidos=$_POST['apellidos'];
+      $fechaNac=$_POST['fechaNacimiento'];
+      $email=$_POST['email'];
+      $sexo=$_POST['grupoSexo'];
+      $idUsuario=73;
 
-      <!--Let browser know website is optimized for mobile-->
-      <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+      //datos de la tabla login
+      $tockname=$_POST['tockname'];
+      $contrasenia=$_POST['password'];
+      $idLogin=36;
 
-      <header>
-          <nav>
-               <a href="#" data-target="slide-out" class="sidenav-trigger show-on-large"><i class="material-icons">menu</i></a>
-           </nav>
+      $edad=0;
 
-             <ul id="slide-out" class="sidenav">
+      $anioNac = substr($fechaNac, 0, 4);
+      $anioAct = date("Y");
 
-               <li>
-                   <div class="user-view">
-                     <div class="background">
-                       <img src="" id="fotoPortada">
-                     </div>
-                     <a href="#user"><img class="circle" src="../<?php echo $ruta ?>" id="fotoPerfil"></a>
-                     <a href="#name"><span class="black-text name" id="Nombre"> <?php echo "$consultaFoto[1] $consultaFoto[2]" ?> </span></a>
-                     <a href="#email"><span class="black-text email" id="userName"><?php echo "@$consultaFoto[3]" ?></span></a>
-                   </div>
-               </li>
+      $mesNac = substr($fechaNac, 5, 2);
+      $mesAct = date("n");
 
-               <li><a id="viajes" class="waves-effect" ><i class="material-icons">landscape</i>Viajes</a></li>
-               <li><a id="lista" class="waves-effect" ><i class="material-icons">format_list_bulleted</i>Wish list</a></li>
-               <li><div class="divider"></div></li>
-               <li><a href="https://drive.google.com/file/d/0B7zGJAz3xz9iQno0UHpxSUwtSG8/view?usp=sharing" target="_blank" id="descarga" class="waves-effect" ><i class="material-icons">cloud_download</i>Descargar Fleetock</a></li>
-               <li><a id="ayuda" class="waves-effect" ><i class="material-icons">help</i>Ayuda</a></li>
+      $diaNac = substr($fechaNac, 8, 2);
+      $diaAct = date("j");
 
-             </ul>
-      </header>
-    </head>
+      $aniosDiferencia = $anioAct - $anioNac;
+      if ($mesAct < $mesNac) {
+          $edad=$aniosDiferencia-1;
+      }else{
+          if ($mesAct == $mesNac) {
+              if ($diaAct < $diaNac) {
+                  $edad=$aniosDiferencia-1;
+              }else {
+                  $edad=$aniosDiferencia;
+              }
+              $edad=$aniosDiferencia;
+          }
 
-    <body>
-
-        <div class="container">
-
-           <?php
-           $i=0;
-               if($viajes -> num_rows != 0)
-               {
-                   //guardo los viajes que tiene el usuario
-                   while($carta = $viajes -> fetch_assoc())
-                   {
-                       $array = array(
-                          1  => $carta['idViaje'],
-                          2 => $carta['nombre'],
-                          3 => $carta['estadoDelViaje']
-                      );
-
-                      //cuento cuantos destinos tiene cada viaje
-                      $cantidadDestinos = contarDestinosViaje($mysqli, $array[1]);
-                      if($cantidadDestinos -> num_rows != 0)
-                      {
-                          while($num = $cantidadDestinos -> fetch_assoc())
-                          {
-                              $noDestinos = array(
-                                 1  => $num['destinos']
-                             );
-                         }
-                     }
-
-                     //consulto la foto y el nombre del destino del viaje
-                     $destino = consultarDestinosViaje($mysqli, $array[1]);
-                     $y=0;
-                     $destinoFinal="";
-                     $destinos="";
-                     if($destino -> num_rows != 0)
-                     {
-                         while($r = $destino -> fetch_assoc())
-                         {
-                             $y++;
-                             //si el viaje tiene más de un destino
-                             if($noDestinos[1] > 1)
-                             {
-                                 $aDestinos = array(
-                                     $y => array(
-                                         1 => $r['idDestino'],
-                                         2  => $r['foto'],
-                                         3  => $r['lugar']
-                                     )
-                                   );
-                                   if($y>1)
-                                   {
-                                       $destinoFinal= $destinoFinal . " | " . $aDestinos[$y][3];
-                                   }
-                                   else
-                                       $destinoFinal= $destinoFinal . $aDestinos[$y][3];
-
-                             $destinos = $destinos . $aDestinos[$y][1];
-
-                             }else { //si solo tiene un destino
-                                 $aDestinos = array(
-                                     1 => $r['idDestino'],
-                                     2  => $r['foto'],
-                                     3  => $r['lugar']
-                                );
-                                $destinoFinal=$aDestinos[3];
-                             }
-                        }
-                    }
-
-                    //si el viaje tiene más de un destino
-                     if($noDestinos[1] > 1)
-                     {
-                         //me imprime una foto de destino en general
-                         $ruta = 'Imagenes/Destinos/multiple.jpg';
-                     }
-                     else {
-                         //si no, me imprime la foto del destino
-                        $ruta = substr($aDestinos[2], 25);
-                     }
-                      if($i==0)
-                      {
-                          echo '
-                          <div class="row">
-                          ';
-                      }
-                         echo '
-                             <div class="col s12 m4">
-                                 <div class="card hoverable">
-                                     <div class="card-image">
-                                         <img src="../'.$ruta.'">
-
-                                         <a href="detalleViaje.php?v='.$array[1].'&v1='.$login.'&v2='.$usuario.'&d='.$destinos.'" class="btn-floating halfway-fab waves-effect waves-light purple darken-2 hoverable "><i class="material-icons">local_play</i></a>
-                                     </div>
-                                     <div class="card-content">
-                                         <span class="card-title center-align">'.$array[2].'</span>
-                                         <p class="center-align">'.$destinoFinal.'</p>
-                                         <p class="center-align">'.$array[3].'</p>
-                                     </div>
-                               </div>
-                             </div>
-                           '
-                         ;
-                         $i=$i+1;
-                     if($i==3)
-                     {
-                         echo '
-                           </div>
-                         ';
-                         $i=0;
-                     }
-
-                   }
-               }
-        ?>
-
-    </div>
-      <!--JavaScript at end of body for optimized loading-->
-      <script src="../js/jquery.js"></script>
-      <script src="../js/materialize.js"></script>
-      <script type="text/javascript" src="../js/login.js"></script>
-    </body>
-  </html>
-
-
-
-  <?php
-      //incluimos el script php de funciones y conexion a la bd
-      include('consultasUsuarios.php');
-      if($errorConexion == false)
-      {
-          // $login=$_GET['v1'];
-          // $usuario=$_GET['v2'];
-          $login=4;
-          $usuario=4;
-          $consultaFoto = consultarFoto($mysqli, $usuario, $login);
-          $viajes = mostrarViajes($mysqli, $usuario);
-
-
-          // VARIABLES GLOBALES NECESARIAS PARA VIAJES
-          $destinoFinal="";
-          $destinos="";
-          $destino="";
-          $aDestinos="";
-          $array=null;
-          $destinoFinal="";
-          $ruta="";
       }
-      //CHECAR VARIABLE RUTA
-      $ruta = substr($consultaFoto[4], 25);
-  ?>
-  <!DOCTYPE html>
-  <html lang="en">
+          $consulta ="SELECT count(usuario) as cantidad from login where usuario = '$tockname'";
+          $resultados = mysqli_query($conexion, $consulta);
 
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" type="image/png" href="../assets/img/favicon.png">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-    <title>
-      Perfil
-    </title>
-    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
-    <!--     Fonts and icons     -->
-    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
-    <!-- CSS Files -->
-    <link href="../assets/css/material-kit.css?v=2.0.4" rel="stylesheet" />
-    <!-- CSS Just for demo purpose, don't include it in your project -->
-    <link href="../assets/demo/demo.css" rel="stylesheet" />
-  </head>
+          while($temp = mysqli_fetch_array($resultados))
+          {
+              $cantidadTockname = $temp['cantidad'];
+          }
 
-  <body class="profile-page sidebar-collapse">
-    <nav class="navbar navbar-transparent navbar-color-on-scroll fixed-top navbar-expand-lg" color-on-scroll="100" id="sectionsNav">
-      <div class="container">
-        <div class="navbar-translate">
-          <a class="navbar-brand">
-            Fleetock </a>
-          <button class="navbar-toggler" type="button" data-toggle="collapse" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="navbar-toggler-icon"></span>
-            <span class="navbar-toggler-icon"></span>
-            <span class="navbar-toggler-icon"></span>
-          </button>
-        </div>
-        <div class="collapse navbar-collapse">
-          <ul class="navbar-nav ml-auto">
-            <li class="dropdown nav-item">
-              <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
-                <i class="material-icons">apps</i> Components
-              </a>
-              <div class="dropdown-menu dropdown-with-icons">
-                <a href="../index.html" class="dropdown-item">
-                  <i class="material-icons">layers</i> All Components
-                </a>
-                <a href="https://demos.creative-tim.com/material-kit/docs/2.0/getting-started/introduction.html" class="dropdown-item">
-                  <i class="material-icons">content_paste</i> Documentation
-                </a>
-              </div>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="javascript:void(0)" onclick="scrollToDownload()">
-                <i class="material-icons">cloud_download</i> Download
-              </a>
-            </li>
+          if($cantidadTockname>0)
+          {
+              echo -1;
+          }
+          else {
+              $sentenciaUsuarios="INSERT into usuario (idUsuario, nombre, apellidos, fechaNac, edad, sexo, email)
+                      values ('', '$nombre', '$apellidos', '$fechaNac', '$edad', '$sexo', '$email')";
 
-          </ul>
-        </div>
-      </div>
-    </nav>
-    <div class="page-header header-filter" data-parallax="true" style="background-image: url('../assets/img/city-profile.jpg');"></div>
-    <div class="main main-raised">
-      <div class="profile-content">
-        <div class="container">
-          <div class="row">
-            <div class="col-md-6 ml-auto mr-auto">
-              <div class="profile">
-                <div class="avatar">
-                  <img src="../assets/img/faces/christian.jpg" alt="Circle Image" class="img-raised rounded-circle img-fluid">
-                </div>
-                <div class="name">
-                  <h3 class="title">Christian Louboutin</h3>
-                  <h6>Designer</h6>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-6 ml-auto mr-auto">
-              <div class="profile-tabs">
-                <ul class="nav nav-pills nav-pills-icons justify-content-center" role="tablist">
-                  <li class="nav-item" id="opcionViajes">
-                    <a class="nav-link active" href="#viajes" role="tab" data-toggle="tab">
-                      <i class="material-icons">card_travel</i> Viajes
-                    </a>
-                  </li>
-                  <li class="nav-item" id="opcionWishList">
-                    <a class="nav-link" href="#wishlist" role="tab" data-toggle="tab">
-                      <i class="material-icons">favorite</i> Wish List
-                    </a>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
+              $ultimoID="SELECT MAX(idUsuario) as id from usuario";
+              $resultadoID = mysqli_query($conexion, $ultimoID);
 
-          <div class="tab-content tab-space">
-
-            <div class="tab-pane active text-center gallery" id="viajes">
-              <!-- VIAJES DEL USUARIO -->
-              <?php
-              $i=0;
-                  if($viajes -> num_rows != 0)
-                  {
-                      //guardo los viajes que tiene el usuario
-                      while($carta = $viajes -> fetch_assoc())
-                      {
-                          $array = array(
-                             1  => $carta['idViaje'],
-                             2 => $carta['nombre'],
-                             3 => $carta['estadoDelViaje']
-                         );
-
-                         //cuento cuantos destinos tiene cada viaje
-                         $cantidadDestinos = contarDestinosViaje($mysqli, $array[1]);
-                         if($cantidadDestinos -> num_rows != 0)
-                         {
-                             while($num = $cantidadDestinos -> fetch_assoc())
-                             {
-                                 $noDestinos = array(
-                                    1  => $num['destinos']
-                                );
-                            }
-                        }
-
-                        //consulto la foto y el nombre del destino del viaje
-                        $destino = consultarDestinosViaje($mysqli, $array[1]);
-                        $y=0;
-                        $destinoFinal="";
-                        $destinos="";
-                        if($destino -> num_rows != 0)
-                        {
-                            while($r = $destino -> fetch_assoc())
-                            {
-                                $y++;
-                                //si el viaje tiene más de un destino
-                                if($noDestinos[1] > 1)
-                                {
-                                    $aDestinos = array(
-                                        $y => array(
-                                            1 => $r['idDestino'],
-                                            2  => $r['foto'],
-                                            3  => $r['lugar']
-                                        )
-                                      );
-                                      if($y>1)
-                                      {
-                                          $destinoFinal= $destinoFinal . " | " . $aDestinos[$y][3];
-                                      }
-                                      else
-                                          $destinoFinal= $destinoFinal . $aDestinos[$y][3];
-
-                                $destinos = $destinos . $aDestinos[$y][1];
-
-                                }else { //si solo tiene un destino
-                                    $aDestinos = array(
-                                        1 => $r['idDestino'],
-                                        2  => $r['foto'],
-                                        3  => $r['lugar']
-                                   );
-                                   $destinoFinal=$aDestinos[3];
-                                }
-                           }
-                       }
-
-                       //si el viaje tiene más de un destino
-                        if($noDestinos[1] > 1)
-                        {
-                            //me imprime una foto de destino en general
-                            $ruta = 'Imagenes/Destinos/multiple.jpg';
-                        }
-                        else {
-                            //si no, me imprime la foto del destino
-                           $ruta = substr($aDestinos[2], 25);
-                        }
-                         if($i==0)
-                         {
-                             echo '
-                              <div class="row">
-                             ';
-                         }
-                            echo '
-                                <div class="col s12 m4">
-                                    <div class="card hoverable" style="width: 100%; height: 360px;">
-                                        <div class="card-image">
-                                            <img style="width: 100%; height: 200px;" src="../'.$ruta.'">
-
-                                            <a style="background-color: #1faa00;" href="#detalleViaje" class="mostrarDetalleViaje btn-floating halfway-fab waves-effect waves-light hoverable "><i class="material-icons">local_play</i></a>
-                                        </div>
-                                        <div class="card-content">
-                                            <span class="card-title center-align">'.$array[2].'</span>
-                                            <p class="center-align">'.$destinoFinal.'</p>
-                                            <p class="center-align">'.$array[3].'</p>
-                                        </div>
-                                  </div>
-                                </div>
-                              '
-                            ;
-                            $i=$i+1;
-                        if($i==3)
-                        {
-                            echo '
-                              </div>
-                            ';
-                            $i=0;
-                        }
-                      }
-
-                  }
-           ?>
-            </div>
-
-            <div class="tab-pane active text-center gallery" id="detalleViaje">
-              <!-- DETALLES DEL VIAJE -->
-
-              <?php
-              if($errorConexion == false)
+              while($temp2 = mysqli_fetch_array($resultadoID))
               {
-                  // $idViaje=$_GET['v'];
-                  // $idViaje=11; $array[1]
-                  $datos = detalleViaje($mysqli, $array[1]);
-                  $estilo = jalarEstiloViaje($mysqli, $datos[5]);
-                  $datos[5]=$estilo[1];
-                  // $idDestinos=$_GET['d']; $destinos
-                  $consultaFoto = consultarFoto($mysqli, $usuario, $login);
-                  $viajes = mostrarViajes($mysqli, $usuario);
+                  $idU = $temp2['id'];
               }
-              for($i=1; $i<=5; $i++)
+              $idU=$idU+1;
+
+              $sentenciaLogin="INSERT into login(idLogin, usuario, contraseña, tipo, Usuario_idUsuario)
+              values ('', '$tockname', '$contrasenia', 'Usuario' ,'$idU')";
+
+              if (mysqli_query($conexion, $sentenciaUsuarios) && mysqli_query($conexion, $sentenciaLogin))
               {
-                  echo "viaje: $datos[$i]";
-                  echo '<br>';
+                  echo $idU;
               }
+          }
+    }
+    else if($bandera == 1)
+    { // Agrega las preferencias de los tipos de sitios
+      $usuario=$_POST['usuario'];
+      $tipo=$_POST['ide'];
+      $sql="INSERT into prefiere(Usuario_idUsuario,TipoSitio_idTipoSitio) values ('$usuario', '$tipo');";
+      if (mysqli_query($conexion, $sql)) {
+        echo 1;
+      }
+    }
+    else if($bandera == 2)
+    { // Elimina las preferencias de los tipod de sitios
+      $usuario=$_POST['usuario'];
+      $tipo=$_POST['ide'];
+      $sql="DELETE FROM prefiere WHERE prefiere.Usuario_idUsuario = $usuario AND prefiere.TipoSitio_idTipoSitio = $tipo;";
+      if (mysqli_query($conexion, $sql)) {
+        echo 1;
+      }
+    }
+    else if($bandera == 3)
+    {
+      $usuario=$_POST['usuario'];
+      $ultimoID="SELECT idLogin FROM login WHERE Usuario_idUsuario=$usuario";
+      $resultadoID = mysqli_query($conexion, $ultimoID);
 
-
-              $t=0;
-              for ($y=0; $y < strlen($destinos) ; $y++) {
-                  $idD=substr($destinos, $y, 1);
-                  $actividadesxDestino = consultaActividadesXDestino($mysqli, $array[1], $idD);
-                  $tamanio = sizeof($actividadesxDestino);
-                  echo $actividadesxDestino[1][4];
-
-                  for ($i=1; $i <=$tamanio ; $i++) {
-                      $ruta = substr($actividadesxDestino[$i][3], 25);
-                      if($t==0)
-                      {
-                          echo '
-                          <div class="row">
-                          ';
-                      }
-                         echo '
-                             <div class="col s12 m3">
-                                 <div class="card">
-                                     <div class="card-image">
-                                         <img src="../'.$ruta.'">
-                                     </div>
-                                     <div class="card-content">
-                                         <span class="card-title">'.$actividadesxDestino[$i][1].'</span>
-                                         <p>'.$actividadesxDestino[$i][2].'</p>
-                                          <p>'.$actividadesxDestino[$i][5].'</p>
-                                     </div>
-                               </div>
-                             </div>
-                           '
-                         ;
-                         $t++;
-                     if($t==3 || $i==$tamanio)
-                     {
-                         echo '
-                           </div>
-                         ';
-                         $t=0;
-                     }
-                 }
-              }
-              ?>
-            </div>
-
-            <div class="tab-pane text-center gallery" id="wishlist">
-              <div class="row">
-                <div class="col m3 ">
-                  <img src="../assets/img/examples/mariya-georgieva.jpg" class="rounded">
-                  <img src="../assets/img/examples/studio-3.jpg" class="rounded">
-                </div>
-                <div class="col m3 ">
-                  <img src="../assets/img/examples/clem-onojeghuo.jpg" class="rounded">
-                  <img src="../assets/img/examples/olu-eletu.jpg" class="rounded">
-                  <img src="../assets/img/examples/studio-1.jpg" class="rounded">
-                </div>
-              </div>
-            </div>
-
-          </div>
-
-        </div>
-      </div>
-    </div>
-    <footer class="footer footer-default">
-      <div class="container">
-        <nav class="float-left">
-          <ul>
-            <li>
-              <a href="https://www.creative-tim.com">
-                Creative Tim
-              </a>
-            </li>
-            <li>
-              <a href="https://creative-tim.com/presentation">
-                About Us
-              </a>
-            </li>
-            <li>
-              <a href="http://blog.creative-tim.com">
-                Blog
-              </a>
-            </li>
-            <li>
-              <a href="https://www.creative-tim.com/license">
-                Licenses
-              </a>
-            </li>
-          </ul>
-        </nav>
-        <div class="copyright float-right">
-          &copy;
-          <script>
-            document.write(new Date().getFullYear())
-          </script>, made with <i class="material-icons">favorite</i> by
-          <a href="https://www.creative-tim.com" target="_blank">Creative Tim</a> for a better web.
-        </div>
-      </div>
-    </footer>
-    <!--   Core JS Files   -->
-    <script src="../assets/js/core/jquery.min.js" type="text/javascript"></script>
-    <script src="../assets/js/core/popper.min.js" type="text/javascript"></script>
-    <script src="../assets/js/core/bootstrap-material-design.min.js" type="text/javascript"></script>
-    <script src="../assets/js/plugins/moment.min.js"></script>
-    <!--	Plugin for the Datepicker, full documentation here: https://github.com/Eonasdan/bootstrap-datetimepicker -->
-    <script src="../assets/js/plugins/bootstrap-datetimepicker.js" type="text/javascript"></script>
-    <!--  Plugin for the Sliders, full documentation here: http://refreshless.com/nouislider/ -->
-    <script src="../assets/js/plugins/nouislider.min.js" type="text/javascript"></script>
-    <!--	Plugin for Sharrre btn -->
-    <script src="../assets/js/plugins/jquery.sharrre.js" type="text/javascript"></script>
-    <!-- Control Center for Material Kit: parallax effects, scripts for the example pages etc -->
-    <script src="../assets/js/material-kit.js?v=2.0.4" type="text/javascript"></script>
-
-    <script type="text/javascript">
-        $(document).ready(function(){
-            $('#wishlist').hide();
-            $('#detalleViaje').hide();
-
-            $('#opcionViajes').click(function(){
-                $('#wishlist').hide();
-                $('#viajes').show();
-                $('#detalleViaje').hide();
-            });
-            $('#opcionWishList').click(function(){
-                $('#viajes').hide();
-                $('#wishlist').show();
-            });
-            $('.mostrarDetalleViaje').click(function(){
-                // $('#viajes').hide();
-                $('#wishlist').hide();
-                $('#detalleViaje').show();
-            });
-
-        });
-    </script>
-  </body>
-
-  </html>
+      while($temp2 = mysqli_fetch_array($resultadoID))
+      {
+          $idU = $temp2['idLogin'];
+      }
+      echo $idU;
+    }
+ ?>

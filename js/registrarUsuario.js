@@ -5,7 +5,18 @@ $(document).ready(function()
 
      $('#fechaNacimiento').datepicker({
         format: 'yyyy-mm-dd',
+		minDate: new Date(1918,0,1),
+		maxDate: new Date(2000,11,31),
+        i18n:
+        {
+            months: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+            monthsShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+            weekdays: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sabado'],
+            weekdaysShort: ['Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab'],
+            weekdaysAbbrev:	['D','L','M','M','J','V','S']
+        }
     });
+
     $('#nombre').keypress(function(tecla) {
         if ((tecla.charCode < 97 || tecla.charCode > 122)//letras mayusculas
             && (tecla.charCode < 65 || tecla.charCode > 90) //letras minusculas
@@ -88,8 +99,8 @@ return false;
     });
     var usuario;
     $('#btnRegistrar').click(function(e){
-      $('.registro2').show('slow');
-      $('.registro1').hide('slow');
+      // $('.registro2').show('slow');
+      // $('.registro1').hide('slow');
         var nombre = $('#nombre').val();
         var apellido = $('#apellido').val();
         var email = $('#email').val();
@@ -107,23 +118,23 @@ return false;
        }
         else if(password == confirmaPassword)
         {
-            var datos = $('#formRegistro').serialize()+"&ide=0";
+            var datos = $('#formRegistro').serialize()+"&ban=0";
 
             $.ajax({
                 url: '../FleetockWeb/php/modeloRegistro.php',
                 type: 'post',
                 data: datos,
-                success: function(r)
+                success: function(h)
                 {
-                    console.log("R: "+r);
-                    if (r>-1) {
+                    console.log(h);
+                    if (h>-1) {
                         $('#resultado').html("Bienvenido a Fleetock");
                         $('.registro2').show('slow');
                         $('.registro1').hide('slow');
-                        usuario=r;
-                    }else if (r==-1) {
+                        usuario=h;
+                    }else if (h==-1) {
                         $('#resultado').html("Ingrese otro Tockname");
-                    } else{
+                    } else if(h==-2){
                         $('#resultado').html("Ups..Creo que algo ha salido mal");
                     }
                 }

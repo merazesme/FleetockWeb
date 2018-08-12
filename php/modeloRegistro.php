@@ -29,19 +29,9 @@
       $diaNac = substr($fechaNac, 8, 2);
       $diaAct = date("j");
 
-      $aniosDiferencia = $anioAct - $anioNac;
-      if ($mesAct < $mesNac) {
-          $edad=$aniosDiferencia-1;
-      }else{
-          if ($mesAct == $mesNac) {
-              if ($diaAct < $diaNac) {
-                  $edad=$aniosDiferencia-1;
-              }else {
-                  $edad=$aniosDiferencia;
-              }
-              $edad=$aniosDiferencia;
-          }
-
+      $edad = $anioAct - $anioNac;
+      if ($mesNac >= $mesAct && $diaNac >= $diaAct) {
+          $edad=-1;
       }
           $consulta ="SELECT count(usuario) as cantidad from login where usuario = '$tockname'";
           $resultados = mysqli_query($conexion, $consulta);
@@ -71,8 +61,12 @@
               $sentenciaLogin="INSERT into login(idLogin, usuario, contraseña, tipo, Usuario_idUsuario)
               values ('', '$tockname', '$contrasenia', 'Usuario' ,'$idU')";
 
-              if (mysqli_query($conexion, $sentenciaUsuarios) && mysqli_query($conexion, $sentenciaLogin)) {
+              if (mysqli_query($conexion, $sentenciaUsuarios) && mysqli_query($conexion, $sentenciaLogin))
+              {
                   echo $idU;
+              }
+              else {
+                  echo -2;
               }
           }
     }

@@ -18,14 +18,19 @@ $(document).ready(function(){
 		$('nav').removeClass('color');
 	}
 
+	$('.tap-target').tapTarget();
+
 	$('.modal').modal();
 
 	$('.tabs').tabs();
 
 	$('select').formSelect();
 
-	$('.datepicker').datepicker();
-
+	$('.datepicker').datepicker({
+        defaultDate: new Date(2000,1,1),
+	    setDefaultDate: true
+	});
+	
 	$('.parallax').parallax();
 
 	$('.carousel.carousel-slider').carousel({

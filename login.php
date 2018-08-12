@@ -144,7 +144,7 @@
   					      	<div class="row">
   						        <div class="input-field col s12">
   						          <input id="fechaNacimiento" name="fechaNacimiento" type="text" class="datepicker">
-  						          <label for="fechaNacimiento">Fecha de nacimiento</label>
+  						          <label id="labelFecha" for="fechaNacimiento">Fecha de nacimiento</label>
   						        </div>
   					      	</div>
   					      	<div class="row">
@@ -377,6 +377,7 @@
 	  <script src="js/materialize.js"></script>
 		<script type="text/javascript" src="js/login.js"></script>
 		<script type="text/javascript" src="js/registrarUsuario.js"></script>
-		<script type="text/javascript" src="js/validarUsuario.js"></script>
+        <script type="text/javascript" src="js/validarUsuario.js"></script>
+
 	</body>
 </html>

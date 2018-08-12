@@ -132,7 +132,7 @@ However, delay the fade out process for 2.5 seconds */
                             <a href="https://drive.google.com/file/d/0B7zGJAz3xz9iQno0UHpxSUwtSG8/view?usp=sharing" target="_blank" class="dropdown-item">
                                 <i class="material-icons">cloud_download</i> Descargar
                             </a>
-                            <a href="#" class="dropdown-item">
+                            <a href="<?php echo "ayudaLogin.php?v1=$login&v2=$usuario" ?>" class="dropdown-item">
                                 <i class="material-icons">help</i> Ayuda
                             </a>
                             <a href="../login.php" class="dropdown-item">
