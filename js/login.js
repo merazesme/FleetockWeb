@@ -30,7 +30,7 @@ $(document).ready(function(){
         defaultDate: new Date(2000,1,1),
 	    setDefaultDate: true
 	});
-	
+
 	$('.parallax').parallax();
 
 	$('.carousel.carousel-slider').carousel({
@@ -86,8 +86,7 @@ function muestraDestinos(valor,opc){
   $.ajax({
     url: "php/buscadorDestino.php",
     type:"POST",
-    data:{buscar:valor,
-					opcion: opc},
+    data:{buscar:valor, opcion: opc},
     success:function(respuesta){
       html=respuesta;
       $('#destinos').html(html);

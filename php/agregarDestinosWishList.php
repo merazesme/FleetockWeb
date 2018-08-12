@@ -6,7 +6,8 @@
     include('conexion.php');
     $conexion=conexion();
     if($errorConexion == false)
-    { session_start();
+    {
+        // session_start();
       $datos=$_SESSION['idUsuario'];
       $m=explode(',', $datos);
       $login=$m[0];

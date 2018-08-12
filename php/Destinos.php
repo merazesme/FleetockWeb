@@ -1,9 +1,13 @@
 <?php
     //incluimos el script php de funciones y conexion a la bd
-    $buscar=$_GET['buscar'];
+    $buscar="";
+    $filtro="";
+    if(isset($_GET['buscar']))
+        $buscar=$_GET['buscar'];
     $opcion=$_GET['opcion'];
     $usuario=$_GET['usuario'];
-    $filtro=$_GET['filtro'];
+    if(isset($_GET['filtro']))
+        $filtro=$_GET['filtro'];
     include('modeloDestino.php');
 
 ?>

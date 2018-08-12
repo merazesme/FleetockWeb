@@ -32,8 +32,6 @@
     Perfil
     </title>
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
-    <!--Import materialize.css-->
-
 
     <!--     Fonts and icons     -->
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
@@ -41,8 +39,6 @@
     <!-- CSS Files -->
     <!-- <link type="text/css" rel="stylesheet" href="../css/materialize.min.css"  media="screen,projection"/> -->
     <link href="../assets/css/material-kit.css?v=2.0.4" rel="stylesheet" />
-    <!-- CSS Just for demo purpose, don't include it in your project -->
-    <link href="../assets/demo/demo.css" rel="stylesheet" />
 
     </head>
 
@@ -152,30 +148,25 @@
                                     //si el viaje tiene más de un destino
                                     if($noDestinos[1] > 1)
                                     {
-                                    $aDestinos = array(
-                                        $y => array(
-                                            1 => $r['idDestino'],
-                                            2  => $r['foto'],
-                                            3  => $r['lugar']
-                                            )
-                                        );
-                                    if($y>1)
-                                    {
+                                        $aDestinos = array(
+                                            $y => array(
+                                                1 => $r['idDestino'],
+                                                2  => $r['foto'],
+                                                3  => $r['lugar']
+                                                )
+                                            );
                                         $destinoFinal= $destinoFinal . " | " . $aDestinos[$y][3];
-                                    }
-                                    else
-                                        $destinoFinal= $destinoFinal . $aDestinos[$y][3];
 
-                                    $destinos = $destinos . $aDestinos[$y][1];
+                                        $destinos = $destinos . $aDestinos[$y][1];
 
                                     }else
                                     { //si solo tiene un destino
-                                        $c = array(
+                                        $aDestinos = array(
                                             1 => $r['idDestino'],
                                             2  => $r['foto'],
                                             3  => $r['lugar']
                                         );
-                                        $destinos=$c[1];
+                                        $destinos=$aDestinos[1];
                                         $destinoFinal=$aDestinos[3];
                                     }
                                 }

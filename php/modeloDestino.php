@@ -19,7 +19,7 @@ function muestraDestinos($buscar,$opcion,$usuario,$filtro){
         $query="SELECT nombre, foto, idDestino, pais from destino INNER JOIN pertenece on idDestino = Destino_idDestino GROUP BY nombre HAVING COUNT(*) > 1";
       break;
       case 3: // Sugerencias
-        $query='SELECT destino.idDestino, destino.nombre, destino.foto FROM destino
+        $query='SELECT destino.idDestino, destino.nombre, destino.foto, pais FROM destino
                 INNER JOIN sedivideen ON sedivideen.Destino_idDestino = idDestino
                 INNER JOIN tipositio ON tipositio.idTipoSitio = sedivideen.TipoSitio_idTipoSitio
                 INNER JOIN prefiere ON tipositio.idTipoSitio = prefiere.TipoSitio_idTipoSitio
@@ -48,10 +48,10 @@ function muestraDestinos($buscar,$opcion,$usuario,$filtro){
         }
       break;
       case 6: // Filtro personalizado en el wish list
-        $query='SELECT nombre, destino.foto, idDestino, pais from destino
+        $query="SELECT nombre, destino.foto, idDestino, pais from destino
                 inner join deseos on deseos.destino_idDestino=destino.idDestino
                 inner join sedivideen on sedivideen.Destino_idDestino=deseos.Destino_idDestino
-                WHERE sedivideen.TipoSitio_idTipoSitio='.$filtro.' and deseos.usuario_idUsuario='.$usuario.' order by nombre;';
+                WHERE sedivideen.TipoSitio_idTipoSitio='.$filtro.' and deseos.usuario_idUsuario='.$usuario.' order by nombre;";
         if ($buscar !='') // Si tecleo algo que buscar
         { $q=$conexion->real_escape_string($buscar);
           $query="SELECT nombre, destino.foto, idDestino, pais from destino
@@ -120,6 +120,7 @@ function muestraDestinos($buscar,$opcion,$usuario,$filtro){
                     </div>
                   </div>
                 </div>';
+                // echo "$fila['pais']";
         if($col==3) // Si ya existen 3 cards en la row de bostrap se cierra esta etiqueta y se iguala la variable col para crear una nueva row con la siguiente card
         { $card.='</div>';
           $col=0;

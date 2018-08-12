@@ -2,7 +2,6 @@
   include('php/conexion.php');
   $conexion=conexion();
   session_start();
-  $datos=$_SESSION['idUsuario'];
   if (isset($_SESSION['idUsuario'])) // Si ya tiene iniciada sesion y se va al login que lo mande a perfil
     header ('Location: php/Perfil.php');
 ?>

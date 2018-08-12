@@ -140,11 +140,14 @@
                           $b=1;
                           $ruta = substr($actividadesxDestino[$i][3], 25);
                           if ($actividadesxDestino[$i][5] == null) {
-                              $actividadesxDestino[$i][5] = "Pendiente";
+                              $fecha = "Pendiente";
+                          }else {
+                              $fecha= date_format(date_create($actividadesxDestino[$i][5]),'d / m / Y ');
                           }
                           if ($ruta==null) {
                               $ruta="Imagenes/Actividades/default.png";
                           }
+
                           if($t==0)
                           {
                               echo '
@@ -160,7 +163,7 @@
                                          <div class="card-body">
                                              <span class="card-title">'.$actividadesxDestino[$i][1].'</span>
                                              <p class="card-text">'.$actividadesxDestino[$i][2].'</p>
-                                              <p class="card-text">'.$actividadesxDestino[$i][5].'</p>
+                                              <p class="card-text">'.$fecha.'</p>
                                          </div>
                                    </div>
                                  </div>
