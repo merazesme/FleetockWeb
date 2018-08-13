@@ -19,6 +19,8 @@
         //echo $idDestinos;
         $consultaFoto = consultarFoto($mysqli, $usuario, $login);
         $viajes = mostrarViajes($mysqli, $usuario);
+        $fecha1= date_format(date_create($datos[2]),'d / m / Y');
+        $fecha2= date_format(date_create($datos[3]),'d / m / Y');
     }
     else{
     }
@@ -105,7 +107,7 @@
                           <h4 class="card-title"><?php echo $datos[1] ?></h4>
                       </div>
                       <div class="col-md-6 col-sm-4">
-                          <h5 class="card-text" style="text-align:right;"><?php echo $datos[2]." - ".$datos[3] ?></h5>
+                          <h5 class="card-text" style="text-align:right;"><?php echo $fecha1." - ".$fecha2 ?></h5>
                       </div>
                   </div>
                   <div class="row">
