@@ -33,6 +33,22 @@
       	background: #1faa00;
       	border-radius: 5px;
       }
+      .contenedor2 {
+          width: auto;
+        	height: 448px;
+          margin-left: 3%;
+          margin-top: -10px;
+          padding-right: 10px;
+        	background: #fff;
+        	overflow: auto;
+      }
+      .contenedor2::-webkit-scrollbar {
+      	width: 7px;
+      }
+      .contenedor2::-webkit-scrollbar-thumb {
+      	background: #1faa00;
+      	border-radius: 5px;
+      }
       .mensaje
       { text-align: center;
         padding: 25px;
@@ -266,7 +282,9 @@
                   if ( $result->num_rows > 0 ) // Se comprueba el numero de columnas
                   { echo '<ul class="">';
                     while($ver =mysqli_fetch_row($result))
-                    { $fecha= date_format(date_create($ver[4]),'d / m / Y G:i a');
+                    { if ($ver[5]==NULL)
+                        $ver[5]='Imagenes/Usuarios/default.png';
+                      $fecha= date_format(date_create($ver[4]),'d / m / Y G:i a');
                       // Estrellitas de la calificacion de cada usuario que comento
                       $calificacion2='';
                       if ($ver[2]!=NULL)
@@ -324,23 +342,89 @@
           </div>
           <div class="row">
             <?php
-                $sql="SELECT actividad.nombre, tiene.foto, actividad.descripcion, tiene.localizacion FROM actividad INNER JOIN tiene ON actividad.idActividad = tiene.Actividad_idActividad where tiene.Destino_idDestino = '$destino';";
+                $sql="SELECT actividad.nombre, tiene.foto, actividad.descripcion, tiene.localizacion,tiene.idTiene FROM actividad INNER JOIN tiene ON actividad.idActividad = tiene.Actividad_idActividad where tiene.Destino_idDestino = '$destino';";
                 $result=mysqli_query($conexion, $sql);
                 if ( $result->num_rows > 0 ) // Se comprueba el numero de columnas
                 {   while($ver =mysqli_fetch_row($result))
                   {
 
               ?>
-              <div class="col s12 m6 l4">
-                <div class="card" style="height:398px;">
-                  <div class="card-image">
-                    <img src="<?php echo $ver[1] ?>">
+              <div class="row">
+                <div class="col s12 m6 l6">
+                  <div class="card" style="height:520px;">
+                    <div class="card-image">
+                      <img src="<?php echo $ver[1] ?>">
+                    </div>
+                    <div class="card-content">
+                      <p><strong><?php echo $ver[0] ?></strong></p>
+                      <p><?php echo $ver[2] ?></p>
+                      <p><?php echo $ver[3] ?></p>
+                    </div>
                   </div>
-                  <div class="card-content">
-                    <p><strong><?php echo $ver[0] ?></strong></p>
-                    <p><?php echo $ver[2] ?></p>
-                    <p><?php echo $ver[3] ?></p>
+                </div>
+                <div class="col s12 m6 l6">
+                  <div class="row">
+                    <i style="color:#6a1b9a; margin-left: 10px;" class="material-icons col l2">speaker_notes</i>
+                    <span><p style="font-family:Roboto; font-size:18px;"> Comentarios</p></span>
                   </div>
+                  <div class="contenedor2">
+                      <?php
+                        $sql2="SELECT titulo,comentario,calificacion,usuario.nombre,fecha,usuario.foto FROM comentarios INNER join usuario on comentarios.usuario_idUsuario=usuario.idUsuario WHERE actividad_idActividad='$ver[4]';";
+                        $result2=mysqli_query($conexion, $sql2);
+                        if ( $result2->num_rows > 0 ) // Se comprueba el numero de columnas
+                        { echo '<ul class="">';
+                          while($ver =mysqli_fetch_row($result2))
+                          { if ($ver[5]==NULL)
+                              $ver[5]='Imagenes/Usuarios/default.png';
+                            $fecha= date_format(date_create($ver[4]),'d / m / Y G:i a');
+                            // Estrellitas de la calificacion de cada usuario que comento
+                            $calificacion2='';
+                            if ($ver[2]!=NULL)
+                              {
+                                for ($x=0; $x<5; $x++){
+                                  if($ver[2]>0){
+                                    $calificacion2.='<span class="material-icons" style="font-size: 18px;color:black;">star</span>';
+                                    $ver[2]=$ver[2]-1;
+                                  }else
+                                      $calificacion2.='<span class="material-icons" style="font-size: 18px;color:black;">star_border</span>';
+                                  }
+                              }
+                            else
+                              $calificacion2='<span class="material-icons" style="font-size: 18px;">star_border</span>
+                              <span class="material-icons" style="font-size: 18px;color:black;">star_border</span>
+                              <span class="material-icons" style="font-size: 18px;color:black;">star_border</span>
+                              <span class="material-icons" style="font-size: 18px;color:black;">star_border</span>
+                              <span class="material-icons" style="font-size: 18px;color:black;">star_border</span>';
+                       ?>
+                       <lis class="collection-item avatar">
+                         <p style="font-size: 16px;">
+                           <strong><?php echo $ver[0]?></strong>
+                           <span style="font-size: 11px; padding-left: 50%; color: #7D7E7C;"><?php echo $fecha ?></span>
+                         </p>
+                         <span class="row">
+                           <img src="<?php echo $ver[5] ?>" alt="" class="col l6" id="circulo">
+                           <p class="col l6"style="font-size: 12px; color: #393939;"><?php echo $ver[3] ?></p>
+                         </span>
+                         <span class="row">
+                           <span class="col s12 m6 l6" id="comentario"><?php echo $ver[1] ?></span>
+                           <span class="col s12 m6 l6" ><?php echo $calificacion2 ?></span>
+                         </span>
+                         <div class="divider"></div>
+                       </lis>
+                     <?php
+                        }
+                        echo '</ul>';
+                      }
+                      else
+                      { echo '<div class="col l12">
+                              <div class="card">
+                                <p class="mensaje">No se encontraron comentarios</p>
+                                <i class="material-icons" style="font-size: 40px; margin-left:48%; margin-top:-25px; margin-bottom: 25px;">sentiment_dissatisfied</i>
+                              </div>
+                            </div>';
+                      }
+                     ?>
+                    </div>
                 </div>
               </div>
               <?php
