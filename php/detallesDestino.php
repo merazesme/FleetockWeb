@@ -120,12 +120,49 @@
     background: #1faa00;
     border-radius: 5px;
   }
+  .contenedor2 {
+      width: auto;
+      height: 305px;
+      padding-left: 0px;
+      padding-right: 10px;
+      margin-top: 20px;
+      margin-left: -15px;
+      margin-right: 7px;
+      background: #fff;
+      overflow: auto;
+      font-family: 'Open Sans';
+
+  }
+
+  .contenedor2::-webkit-scrollbar {
+    width: 7px;
+  }
+
+  .contenedor2::-webkit-scrollbar-thumb {
+    background: #1faa00;
+    border-radius: 5px;
+  }
   #circulo
   { width:45px;
     border-radius:50%;
     height:45px;
     margin-right:15px;
     margin-bottom:8px;
+  }
+  .linkm
+  { font-family:Roboto;
+    font-size:18px;
+    margin-top: 35px;
+    color:white;
+  }
+  .linkm:hover
+  { color:#F5E6FF;
+  }
+  .linki
+  { color:white;
+  }
+  .linki:hover
+  { color:#F5E6FF;
   }
 </style>
 </head>
@@ -185,11 +222,21 @@
       <div id="agrega">Agregado al Wish List</div>
       <div id="elimina">Eliminado del Wish List</div>
       <?php
+        function quitar_tildes($cadena) {
+          $no_permitidas= array ("á","é","í","ó","ú","Á","É","Í","Ó","Ú","ñ","À","Ã","Ì","Ò","Ù","Ã™","Ã ","Ã¨","Ã¬","Ã²","Ã¹","ç","Ç","Ã¢","ê","Ã®","Ã´","Ã»","Ã‚","ÃŠ","ÃŽ","Ã”","Ã›","ü","Ã¶","Ã–","Ã¯","Ã¤","«","Ò","Ã","Ã„","Ã‹");
+          $permitidas= array ("a","e","i","o","u","A","E","I","O","U","n","N","A","E","I","O","U","a","e","i","o","u","c","C","a","e","i","o","u","A","E","I","O","U","u","o","O","i","a","e","U","I","A","E");
+          $texto = str_replace($no_permitidas, $permitidas ,$cadena);
+          return $texto;
+        }
         $sql="SELECT nombre, pais, foto, round(avg(calificacion)) FROM destino inner join comentarios on comentarios.destino_idDestino= destino.idDestino WHERE idDestino='$destino';";
         $result=mysqli_query($conexion, $sql);
         $imagen='';
         while($ver =mysqli_fetch_row($result))
-        { // Para saber si ya esta en el Wish List
+        { // Separar el nombre del destino
+          $destinoPagina=explode(',', $ver[0]); // Toma la palabra(s) que esta antes de la coma
+          $destinoPagina[0]=quitar_tildes($destinoPagina[0]);// Quita las tildes para poder mandar la palabra(s) por la url
+          $destinoPagina[0]=strtolower($destinoPagina[0]);// Convierte el resultado a minusculas
+          // Para saber si ya esta en el Wish List
           $wish='SELECT * FROM deseos WHERE destino_idDestino='.$destino.' AND usuario_idUsuario='.$usuario.';';
           $buscarDestinoWish = $conexion->query($wish);
           if ( $buscarDestinoWish->num_rows > 0 )
@@ -229,6 +276,11 @@
                 </div>
                 <div class="offset-lg-5 col-lg-3">
                     <?php echo $calificacion2 ?>
+                    <div>
+                      <a href="https://www.visitmexico.com/es/busqueda?title=<?= $destinoPagina[0] ?>&body=<?= $destinoPagina[0] ?>" target="_blank" class="linkm">
+                        <i class="linki material-icons">link</i> Más información
+                      </a>
+                    </div>
                 </div>
               </div>
             </div>
@@ -237,7 +289,7 @@
         <div class="container">
           <div class="row">
             <div class="col-lg-6">
-              <img style="width: 100%;height: 100%;" src="../<?= $imagen ?>">
+              <img style="width: 100%;height: 95%;" src="../<?= $imagen ?>">
               <a style="position:absolute; margin-left:80%; margin-top:-20px;" id="<?php echo $destino ?>" class="btn btn-fab btn-round <?php echo $clase ?>">
                 <i class="material-icons" style="color:white;"><?php echo $icono ?></i>
               </a>
@@ -246,7 +298,6 @@
               <a style="font-family:Roboto; font-size:18px; margin-top: 35px;">
                 <i style="color:#6a1b9a;" class="material-icons">speaker_notes</i> Comentarios
               </a>
-
                 <?php
                   $sql="SELECT titulo,comentario,calificacion,usuario.nombre,fecha,usuario.foto FROM comentarios INNER join usuario on comentarios.usuario_idUsuario=usuario.idUsuario WHERE Destino_idDestino='$destino';";
                   $result=mysqli_query($conexion, $sql);
@@ -297,7 +348,6 @@
                                 <i class="material-icons" style="font-size: 40px; text-align: center; margin-top:-25px; margin-bottom: 25px;">sentiment_dissatisfied</i>
                               </div>';
                     ?>
-
             </div>
           </div>
           <div class="container">
@@ -306,35 +356,86 @@
                 <i style="color:#6a1b9a;" class="material-icons">collections</i> Actividades
               </a>
                 <?php
-                  $sql="SELECT actividad.nombre, tiene.foto, actividad.descripcion, tiene.localizacion FROM actividad INNER JOIN tiene ON actividad.idActividad = tiene.Actividad_idActividad where tiene.Destino_idDestino = '$destino';";
+                  $sql="SELECT actividad.nombre, tiene.foto, actividad.descripcion, tiene.localizacion,tiene.idTiene FROM actividad INNER JOIN tiene ON actividad.idActividad = tiene.Actividad_idActividad where tiene.Destino_idDestino = '$destino';";
                   $result=mysqli_query($conexion, $sql);
                   if ( $result->num_rows > 0 ) // Se comprueba el numero de columnas
-                  {   $col=0;
+                  { echo '<div class="row">';
                     while($ver =mysqli_fetch_row($result))
                     {
-                      if($col==0)
-                        echo '<div class="row">';
-                      $col=$col+1;
                 ?>
-                  <div class="col-md-4 col-sm-12">
-                      <div class="card" style="width: 100%; height: 350px;">
-                          <div class="card-img-top">
-                              <img style="width: 100%; height: 200px;" src="../<?php echo $ver[1] ?>">
-                          </div>
-                          <div class="card-body">
-                              <span class="card-title"><?php echo $ver[0] ?></span>
-                              <p class="card-text"><?php echo $ver[2] ?></p>
-                               <p class="card-text"><?php echo $ver[3] ?></p>
-                          </div>
+                <div class="col-md-6 col-sm-12 col-lg-6">
+                  <div class="card" style="width: 100%; height: 350px;">
+                    <div class="card-img-top">
+                        <img style="width: 100%; height: 200px;" src="../<?php echo $ver[1] ?>">
+                    </div>
+                    <div class="card-body">
+                        <span class="card-title"><?php echo $ver[0] ?></span>
+                        <p class="card-text"><?php echo $ver[2] ?></p>
+                         <p class="card-text"><?php echo $ver[3] ?></p>
                     </div>
                   </div>
-
+                </div>
+                <div class="col-md-6 col-sm-12 col-lg-6">
+                  <div class="row" style="margin-top: 30px;">
+                  </div>
+                  <a style="font-family:Roboto; font-size:18px; margin-top: 0px;">
+                    <i style="color:#6a1b9a;" class="material-icons">speaker_notes</i> Comentarios
+                  </a>
+                  <?php
+                    $sql2="SELECT titulo,comentario,calificacion,usuario.nombre,fecha,usuario.foto FROM comentarios INNER join usuario on comentarios.usuario_idUsuario=usuario.idUsuario WHERE actividad_idActividad='$ver[4]';";
+                    $result2=mysqli_query($conexion, $sql2);
+                    if ( $result2->num_rows > 0 )
+                    {
+                      echo '<div class="contenedor2">';
+                       while($ver =mysqli_fetch_row($result2))
+                       { $fecha= date_format(date_create($ver[4]),'d / m / Y G:i a');
+                         $calificacion2='';
+                         if ($ver[2]!=NULL)
+                           {
+                             for ($x=0; $x<5; $x++){
+                               if($ver[2]>0){
+                                 $calificacion2.='<span class="material-icons" style="font-size: 18px;">star</span>';
+                                 $ver[2]=$ver[2]-1;
+                               }else
+                                   $calificacion2.='<span class="material-icons" style="font-size: 18px;">star_border</span>';
+                               }
+                           }
+                         else
+                           $calificacion2='<span class="material-icons" style="font-size: 18px;">star_border</span>
+                           <span class="material-icons" style="font-size: 18px;">star_border</span>
+                           <span class="material-icons" style="font-size: 18px;">star_border</span>
+                           <span class="material-icons" style="font-size: 18px;">star_border</span>
+                           <span class="material-icons" style="font-size: 18px;">star_border</span>';
+                    ?>
+                    <div class="container">
+                        <div class="d-flex w-100 justify-content-between">
+                          <h4 class="mb-1"><strong><?php echo $ver[0]?></strong></h4>
+                          <small class="text-muted"><?php echo $fecha ?></small>
+                        </div>
+                        <img src="../<?php echo $ver[5] ?>" alt="" id="circulo">
+                        <span class="mb-1" style="font-size:12px;"><?php echo $ver[3] ?></span>
+                        <div class="row">
+                          <p class="col-md-8 col-lg-8"><?php echo $ver[1] ?></p>
+                          <small class="col-md-4 col-lg-4">
+                            <?php echo $calificacion2 ?>
+                          </small>
+                         </div>
+                         <div style="border-top: 1px solid #e0e0e0;"></div>
+                     </div>
+                   <?php
+                       }
+                       echo '</div>';
+                     }
+                       else echo '
+                                 <div class="card">
+                                   <h5 class="info-title" style="text-align: center; padding: 25px;">No se encontraron comentarios</h5>
+                                   <i class="material-icons" style="font-size: 40px; text-align: center; margin-top:-25px; margin-bottom: 25px;">sentiment_dissatisfied</i>
+                                 </div>';
+                   ?>
+                </div>
                 <?php
-                  if($col==3)
-                  { echo '</div>';
-                    $col=0;
-                  }
                     }
+                    echo '</div>';
                   }
                   else {
                     echo '<div class="card container"><h5 class="info-title" style="text-align: center; padding: 25px;">No se encontraron actividades</h5>
@@ -342,6 +443,7 @@
                           </div>';
                   }
                 ?>
+
             </div>
           </div>
           <div class="container">
