@@ -20,7 +20,9 @@
   if ( $buscarDestino->num_rows > 0 )
   {
       while($fila = $buscarDestino->fetch_assoc())
-      {
+      { // Comprueba que tenga imagen
+        if (!file_exists('../'.$fila['foto']))
+          $fila['foto']='Imagenes/Destinos/default.png';
         // Para saber la calificacion de cada destino
         $qcal="SELECT round(avg(calificacion)) as cal FROM destino inner join comentarios on comentarios.destino_idDestino= destino.idDestino WHERE idDestino=".$fila['idDestino'].";";
         $resultcal=$conexion->query($qcal);
@@ -46,7 +48,7 @@
 
         $card.=
         '<div class="col s12 m6 l4">
-        <div class="card">
+        <div class="card" style="height:400px;">
           <div class="card-image">
             <img src="'.$fila['foto'].'">
           </div>
