@@ -66,6 +66,17 @@
         margin-left:-10px;
         margin-top:5px;
       }
+      .linkm
+      { color:#6a1b9a;
+      }
+      .linkm:hover
+      { color:#9c4dcc;
+      }
+      .linki
+      { font-family:Roboto;
+        font-size:18px;
+        color: black;
+      }
     </style>
 </head>
   <body>
@@ -76,7 +87,7 @@
 					<a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
 					<ul class="right hide-on-med-and-down">
 						<li><a href="login.php" class="homeScroll"><i class="material-icons left">home</i>Casa</a></li>
-						<li><a class="destinosScroll"><i class="material-icons left">place</i>Destinos</a></li>
+						<li><a href="login.php" ><i class="material-icons left">place</i>Destinos</a></li>
 						<li><a href="#modal1" class="modal-trigger"><i class="material-icons left">person</i>Iniciar sesión</a></li>
 						<li><a href="#"><i class="material-icons left">work</i>Acerca de </a></li>
 					</ul>
@@ -237,10 +248,23 @@
       <div class="row">
           <div class="col s12 m12 l6" style="margin-left: -10px;">
             <?php
+              function quitar_tildes($cadena) {
+                $no_permitidas= array ("á","é","í","ó","ú","Á","É","Í","Ó","Ú","ñ","À","Ã","Ì","Ò","Ù","Ã™","Ã ","Ã¨","Ã¬","Ã²","Ã¹","ç","Ç","Ã¢","ê","Ã®","Ã´","Ã»","Ã‚","ÃŠ","ÃŽ","Ã”","Ã›","ü","Ã¶","Ã–","Ã¯","Ã¤","«","Ò","Ã","Ã„","Ã‹");
+                $permitidas= array ("a","e","i","o","u","A","E","I","O","U","n","N","A","E","I","O","U","a","e","i","o","u","c","C","a","e","i","o","u","A","E","I","O","U","u","o","O","i","a","e","U","I","A","E");
+                $texto = str_replace($no_permitidas, $permitidas ,$cadena);
+                return $texto;
+              }
               $sql="SELECT nombre, pais, foto, round(avg(calificacion),1) FROM destino inner join comentarios on comentarios.destino_idDestino= destino.idDestino WHERE idDestino='$destino';";
               $result=mysqli_query($conexion, $sql);
               while($ver =mysqli_fetch_row($result))
-              { // Estrellitas para la calificacion
+              { // Separar el nombre del destino
+                $destinoPagina=explode(', ', $ver[0]); // Toma la palabra(s) que esta antes de la coma
+                $destinoPagina[1]=quitar_tildes($destinoPagina[1]);// Quita las tildes para poder mandar la palabra(s) por la url
+                $destinoPagina[1]=strtolower($destinoPagina[1]);// Convierte el resultado a minusculas
+                // Comprueba que tenga imagen
+                if (!file_exists($ver[2]))
+                 $ver[2]='Imagenes/Destinos/default.png';
+                // Estrellitas para la calificacion
                 $calificacion2='';
                 if ($ver[3]!=NULL)
                   {
@@ -268,7 +292,18 @@
               <div class="card-content">
                 <h6><strong><?php echo $ver[0] ?></strong></h6>
                 <p><?php echo $ver[1] ?></p>
-                <p><?php echo $calificacion2 ?></p>
+                <div class="col l6">
+                      <p><?php echo $calificacion2 ?></p>
+                </div>
+                <div class="col l6">
+                  <div class="row">
+                    <a href="https://www.visitmexico.com/es/busqueda?title=<?= $destinoPagina[1] ?>&body=<?= $destinoPagina[1] ?>" target="_blank" class="linkm">
+                      <i style="" class="material-icons col l2">link</i>
+                      <span class="linki"> Más información</span>
+                    </a>
+                  </div>
+                </div>
+                <br>
               </div>
             </div>
             <?php }  ?>
@@ -285,9 +320,10 @@
                   if ( $result->num_rows > 0 ) // Se comprueba el numero de columnas
                   { echo '<ul class="">';
                     while($ver =mysqli_fetch_row($result))
-                    { if ($ver[5]==NULL)
+                    { // Comprueba que tenga imagen
+                      if (!file_exists($ver[5]))
                         $ver[5]='Imagenes/Usuarios/default.png';
-                      $fecha= date_format(date_create($ver[4]),'d / m / Y G:i a');
+                      $fecha= date_format(date_create($ver[4]),'d / m / Y');
                       // Estrellitas de la calificacion de cada usuario que comento
                       $calificacion2='';
                       if ($ver[2]!=NULL)
@@ -349,9 +385,13 @@
                 $result=mysqli_query($conexion, $sql);
                 if ( $result->num_rows > 0 ) // Se comprueba el numero de columnas
                 {   while($ver =mysqli_fetch_row($result))
-                  {
 
+                  {
                      $ver[1]=substr($ver[1], 25);
+
+                  { // Comprueba que tenga imagen
+                    if (!file_exists($ver[1]))
+                      $ver[1]='Imagenes/Actividades/default-c.png';
               ?>
               <div class="row">
                 <div class="col s12 m6 l6">
@@ -378,9 +418,10 @@
                         if ( $result2->num_rows > 0 ) // Se comprueba el numero de columnas
                         { echo '<ul class="">';
                           while($ver =mysqli_fetch_row($result2))
-                          { if ($ver[5]==NULL)
+                          { // Comprueba que tenga imagen
+                            if (!file_exists($ver[5]))
                               $ver[5]='Imagenes/Usuarios/default.png';
-                            $fecha= date_format(date_create($ver[4]),'d / m / Y G:i a');
+                            $fecha= date_format(date_create($ver[4]),'d / m / Y');
                             // Estrellitas de la calificacion de cada usuario que comento
                             $calificacion2='';
                             if ($ver[2]!=NULL)
@@ -452,13 +493,24 @@
             </div>
             <div class="row">
                   <?php
-                    $sql="SELECT transporte.tipo, transporte.foto FROM `transporte` INNER JOIN sedesplazaen ON transporte.idTransporte = sedesplazaen.Transporte_idTransporte WHERE sedesplazaen.Destino_idDestino = '$destino';";
+                    $sql="SELECT transporte.tipo, transporte.foto, corresponde.costo FROM transporte
+                          INNER JOIN sedesplazaen ON transporte.idTransporte = sedesplazaen.Transporte_idTransporte
+                          inner join corresponde on corresponde.sedesplazaen_idSeDesplazaEn = sedesplazaen.idSeDesplazaEn
+                          WHERE sedesplazaen.Destino_idDestino ='$destino';";
                     $result=mysqli_query($conexion, $sql);
                     if ( $result->num_rows > 0 ) // Se comprueba el numero de columnas
+<<<<<<< HEAD
                     {
                       while($ver =mysqli_fetch_row($result))
                       {
                           $ver[1]=substr($ver[1], 25);
+=======
+                    { while($ver =mysqli_fetch_row($result))
+                      { // Comprueba que tenga imagen
+                        if (!file_exists($ver[1]))
+                          $ver[1]='Imagenes/Transportes/default.png';
+
+>>>>>>> 5617bcba02e846e2d3b26631d99fd69d6bc70c27
                   ?>
                   <div class="col l4 m6 s12">
                     <div class="card">
@@ -467,6 +519,7 @@
                       </div>
                       <div class="card-content">
                         <p><?php echo $ver[0] ?></p>
+                        <p>$<?php echo number_format($ver[2],2); ?></p>
                       </div>
                     </div>
                   </div>

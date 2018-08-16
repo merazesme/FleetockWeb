@@ -149,20 +149,20 @@
     margin-right:15px;
     margin-bottom:8px;
   }
-  .linkm
+  .linkm span
   { font-family:Roboto;
     font-size:18px;
     margin-top: 35px;
     color:white;
   }
-  .linkm:hover
-  { color:#F5E6FF;
+  .linkm:hover span
+  { color:#EBCCFF;
   }
   .linki
   { color:white;
   }
   .linki:hover
-  { color:#F5E6FF;
+  { color:#EBCCFF;
   }
 </style>
 </head>
@@ -230,12 +230,15 @@
         }
         $sql="SELECT nombre, pais, foto, round(avg(calificacion)) FROM destino inner join comentarios on comentarios.destino_idDestino= destino.idDestino WHERE idDestino='$destino';";
         $result=mysqli_query($conexion, $sql);
-        $imagen='';
         while($ver =mysqli_fetch_row($result))
-        { // Separar el nombre del destino
-          $destinoPagina=explode(',', $ver[0]); // Toma la palabra(s) que esta antes de la coma
-          $destinoPagina[0]=quitar_tildes($destinoPagina[0]);// Quita las tildes para poder mandar la palabra(s) por la url
-          $destinoPagina[0]=strtolower($destinoPagina[0]);// Convierte el resultado a minusculas
+        { // Comprueba que tenga imagen
+          $imagen=$ver[2];
+          if (!file_exists('../'.$ver[2]))
+           $imagen='Imagenes/Destinos/default.png';
+          // Separar el nombre del destino
+          $destinoPagina=explode(', ', $ver[0]); // Toma la palabra(s) que esta antes de la coma
+          $destinoPagina[1]=quitar_tildes($destinoPagina[1]);// Quita las tildes para poder mandar la palabra(s) por la url
+          $destinoPagina[1]=strtolower($destinoPagina[1]);// Convierte el resultado a minusculas
           // Para saber si ya esta en el Wish List
           $wish='SELECT * FROM deseos WHERE destino_idDestino='.$destino.' AND usuario_idUsuario='.$usuario.';';
           $buscarDestinoWish = $conexion->query($wish);
@@ -247,7 +250,6 @@
           { $clase='green';
             $icono='add';
           }
-          $imagen=$ver[2];
           // Poner estrellitas en la calificacion
           $calificacion2='';
           if ($ver[3]!=NULL)
@@ -277,8 +279,8 @@
                 <div class="offset-lg-5 col-lg-3">
                     <?php echo $calificacion2 ?>
                     <div>
-                      <a href="https://www.visitmexico.com/es/busqueda?title=<?= $destinoPagina[0] ?>&body=<?= $destinoPagina[0] ?>" target="_blank" class="linkm">
-                        <i class="linki material-icons">link</i> Más información
+                      <a href="https://www.visitmexico.com/es/busqueda?title=<?= $destinoPagina[1] ?>&body=<?= $destinoPagina[1] ?>" target="_blank" class="linkm">
+                        <i class="linki material-icons">link</i><span>Más información</span>
                       </a>
                     </div>
                 </div>
@@ -298,13 +300,16 @@
               <a style="font-family:Roboto; font-size:18px; margin-top: 35px;">
                 <i style="color:#6a1b9a;" class="material-icons">speaker_notes</i> Comentarios
               </a>
-                <?php
+                <?php // Comentarios del destino
                   $sql="SELECT titulo,comentario,calificacion,usuario.nombre,fecha,usuario.foto FROM comentarios INNER join usuario on comentarios.usuario_idUsuario=usuario.idUsuario WHERE Destino_idDestino='$destino';";
                   $result=mysqli_query($conexion, $sql);
                   if ( $result->num_rows > 0 )
                   { echo '<div class="contenedor">';
                     while($ver =mysqli_fetch_row($result))
-                    { $fecha= date_format(date_create($ver[4]),'d / m / Y G:i a');
+                    { // Comprueba que tenga imagen de usuario
+                      if (!file_exists('../'.$ver[5]) || $ver[5]==null)
+                       $ver[5]='Imagenes/Usuarios/default.png';
+                      $fecha= date_format(date_create($ver[4]),'d / m / Y');
                       $calificacion2='';
                       if ($ver[2]!=NULL)
                         {
@@ -361,8 +366,12 @@
                   if ( $result->num_rows > 0 ) // Se comprueba el numero de columnas
                   { echo '<div class="row">';
                     while($ver =mysqli_fetch_row($result))
+
                     {
                         $ver[1]=substr($ver[1], 25);
+                    {// Comprueba que tenga imagen de actividad
+                      if (!file_exists('../'.$ver[1]) || $ver[1]==null)
+                       $ver[1]='Imagenes/Actividades/default.png';
                 ?>
                 <div class="col-md-6 col-sm-12 col-lg-6">
                   <div class="card" style="width: 100%; height: 350px;">
@@ -372,7 +381,7 @@
                     <div class="card-body">
                         <span class="card-title"><?php echo $ver[0] ?></span>
                         <p class="card-text"><?php echo $ver[2] ?></p>
-                         <p class="card-text"><?php echo $ver[3] ?></p>
+                        <p class="card-text"><?php echo $ver[3] ?></p>
                     </div>
                   </div>
                 </div>
@@ -389,7 +398,10 @@
                     {
                       echo '<div class="contenedor2">';
                        while($ver =mysqli_fetch_row($result2))
-                       { $fecha= date_format(date_create($ver[4]),'d / m / Y G:i a');
+                       { // Comprueba que tenga imagen de usuario
+                         if (!file_exists('../'.$ver[5]) || $ver[5]==null)
+                          $ver[5]='Imagenes/Usuarios/default.png';
+                         $fecha= date_format(date_create($ver[4]),'d / m / Y');
                          $calificacion2='';
                          if ($ver[2]!=NULL)
                            {
@@ -452,10 +464,15 @@
               <a style="font-family:Roboto; font-size:18px; margin-top: 35px;">
                 <i style="color:#6a1b9a;" class="material-icons">airport_shuttle</i> Transportes
               </a>
+              <div class="row">
               <?php
-                $sql="SELECT transporte.tipo, transporte.foto FROM transporte INNER JOIN sedesplazaen ON transporte.idTransporte = sedesplazaen.Transporte_idTransporte WHERE sedesplazaen.Destino_idDestino = '$destino';";
+                $sql="SELECT transporte.tipo, transporte.foto, corresponde.costo FROM transporte
+                      INNER JOIN sedesplazaen ON transporte.idTransporte = sedesplazaen.Transporte_idTransporte
+                      inner join corresponde on corresponde.sedesplazaen_idSeDesplazaEn = sedesplazaen.idSeDesplazaEn
+                      WHERE sedesplazaen.Destino_idDestino ='$destino';";
                 $result=mysqli_query($conexion, $sql);
                 if ( $result->num_rows > 0 ) // Se comprueba el numero de columnas
+<<<<<<< HEAD
                 {   $col=0;
                   while($ver =mysqli_fetch_row($result))
                   {
@@ -463,23 +480,25 @@
                       echo '<div class="row">';
                     $col=$col+1;
                     $ver[1] = substr($ver[1], 25);
+=======
+                { while($ver =mysqli_fetch_row($result))
+                  { // Comprueba que tenga imagen de transporte
+                    if (!file_exists('../'.$ver[1]) || $ver[1]==null)
+                      $ver[1]='Imagenes/Transportes/default.png';
+>>>>>>> 5617bcba02e846e2d3b26631d99fd69d6bc70c27
               ?>
-                <div class="col-md-4 col-sm-12">
-                    <div class="card" style="width: 100%; height: 300px;">
-                        <div class="card-img-top">
-                            <img style="width: 100%; height: 200px;" src="../<?php echo $ver[1] ?>">
-                        </div>
-                        <div class="card-body">
-                            <span class="card-title"><?php echo $ver[0] ?></span>
-                        </div>
+                <div class="col-md-4 col-sm-12 col-lg-4">
+                  <div class="card" style="width: 100%; height: 300px;">
+                      <div class="card-img-top">
+                          <img style="width: 100%; height: 200px;" src="../<?php echo $ver[1] ?>">
+                      </div>
+                      <div class="card-body">
+                          <span class="card-title"><?php echo $ver[0] ?></span>
+                          <p class="card-text">$<?php echo number_format($ver[2],2); ?></p>
+                      </div>
                   </div>
                 </div>
-
               <?php
-                if($col==3)
-                { echo '</div>';
-                  $col=0;
-                }
                   }
                 }
                 else {
@@ -488,6 +507,7 @@
                         </div>';
                 }
               ?>
+              </div>
             </div>
           </div>
     </div>

@@ -65,7 +65,10 @@ function muestraDestinos($buscar,$opcion,$usuario,$filtro){
   if ( $buscarDestino->num_rows > 0 ) // Se comprueba el numero de columnas
   {   $col=0; // Variable para crear las row de bootstrap
       while($fila = $buscarDestino->fetch_assoc()) // Se obtienen los datos de cada fila
-      { // Para saber si ya esta en el Wish List
+      { // Comprueba que tenga imagen
+        if (!file_exists('../'.$fila['foto']))
+         $fila['foto']='Imagenes/Destinos/default.png';
+        // Para saber si ya esta en el Wish List
         $wish='SELECT * FROM deseos WHERE destino_idDestino='.$fila['idDestino'].' AND usuario_idUsuario='.$usuario.';';
         $buscarDestinoWish = $conexion->query($wish);
         if ( $buscarDestinoWish->num_rows > 0 )
