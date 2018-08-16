@@ -21,7 +21,8 @@
   {
       while($fila = $buscarDestino->fetch_assoc())
       { // Comprueba que tenga imagen
-        if (!file_exists('../'.$fila['foto']))
+          $fila['foto'] = substr($fila['foto'], 25);
+        if (!file_exists('../'.$fila['foto'].''))
           $fila['foto']='Imagenes/Destinos/default.png';
         // Para saber la calificacion de cada destino
         $qcal="SELECT round(avg(calificacion)) as cal FROM destino inner join comentarios on comentarios.destino_idDestino= destino.idDestino WHERE idDestino=".$fila['idDestino'].";";
@@ -46,11 +47,8 @@
           <span class="material-icons" style="size:10px;">star_border</span>
           <span class="material-icons" style="size:10px;">star_border</span>';
 
-        $fila['foto']=substr($fila['foto'], 25);
         $card.=
         '<div class="col s12 m6 l4">
-
-        <div class="card" style="height:420px;">
         <div class="card" style="height:400px;">
           <div class="card-image">
             <img src="'.$fila['foto'].'">
@@ -59,7 +57,7 @@
             <p style="color: #3C4858; text-decoration: none;font-weight: 700; font-size: 14px; margin-top:-12px;" >'.$fila['nombre'].'</p>
             <p style="font-size: 14.4px; margin-bottom:10px; margin-top:3px;">'.$fila['pais'].'</p>
             '.$calificacion2.'
-            <p><a href="muestraDestino.php?id='.$fila['idDestino'].'" target="_blank" style="color:#9c27b0;">Detalles</a></p>
+            <p><a href="muestraDestino.php?id='.$fila['idDestino'].'"  style="color:#9c27b0;">Detalles</a></p>
           </div>
         </div>
         </div>

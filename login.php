@@ -29,7 +29,7 @@
 						<li><a class="homeScroll"><i class="material-icons left">home</i>Casa</a></li>
 						<li><a class="destinosScroll"><i class="material-icons left">place</i>Destinos</a></li>
 						<li><a href="#modal1" class="modal-trigger"><i class="material-icons left">person</i>Iniciar sesión</a></li>
-						<li><a href="#"><i class="material-icons left">work</i>Acerca de </a></li>
+						<li><a href="#ayuda"><i class="material-icons left">work</i>Acerca de </a></li>
 					</ul>
 				</div>
 			</nav>
@@ -37,7 +37,7 @@
 			    <li><a class="homeScroll"><i class="material-icons left">home</i>Casa</a></li>
 			    <li><a class="destinosScroll"><i class="material-icons left">place</i>Destinos</a></li>
 			    <li><a href="#modal1" class="modal-trigger"><i class="material-icons left">person</i>Iniciar sesión</a></li>
-			    <li><a href="#"><i class="material-icons left">work</i>Acerca de </a></li>
+			    <li><a href="#ayuda"><i class="material-icons left">work</i>Acerca de </a></li>
 			</ul>
       <div id="slider">
         <div class="slidershow">
@@ -97,7 +97,7 @@
 								<div class="input-field col s12">
 									<i class="material-icons prefix">account_circle</i>
 									<input id="usuarioLogin" name="usuarioLogin" type="text" class="validate">
-									<label for="usuarioLogin">Tockname</label>
+									<label for="usuarioLogin">Nombre de usuario</label>
 								</div>
 								<div class="input-field col s12">
 									<i class="material-icons prefix">vpn_key</i>
@@ -196,7 +196,6 @@
                     $result=mysqli_query($conexion, $sql);
                     while($ver =mysqli_fetch_row($result))
                     {
-                        $ver[3]=substr($ver[3], 25);
                   ?>
                   <div class="col s12 m6 l4">
                     <div class="card">
@@ -244,10 +243,10 @@
 	 	<div class="parallax-container">
 	      <div class="parallax"><img src="img/mexico.jpg"></div>
 	    </div>
-	    <div class="section white">
+	    <div id="ayuda" class="section white">
 	      	<div class="row container" align="center">
 	        	<h4 class="header">El viaje de tus sueños te esta espereando</h4>
-            <div class="video-container">
+      <div class="video-container">
         <iframe width="853" height="480" src="//www.youtube.com/embed/ndEv1ppPt14" frameborder="0" allowfullscreen></iframe>
       </div>
 	      	</div>
@@ -304,7 +303,7 @@
 						    <li><a class="homeScroll">Casa</a></li>
 						    <li><a class="destinosScroll">Destinos</a></li>
 						    <li><a href="#modal1" class="modal-trigger">Iniciar sesión</a></li>
-						    <li><a href="#">Acerca de </a></li>
+						    <li><a href="#ayuda">Acerca de </a></li>
 						</ul>
 					</div>
 				</div>

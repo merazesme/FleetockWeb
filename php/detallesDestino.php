@@ -204,7 +204,7 @@
                             <a href="https://drive.google.com/file/d/0B7zGJAz3xz9iQno0UHpxSUwtSG8/view?usp=sharing" target="_blank" class="dropdown-item">
                                 <i class="material-icons">cloud_download</i> Descargar
                             </a>
-                            <a href="#" class="dropdown-item">
+                            <a href="<?php echo "ayudaLogin.php?v1=$login&v2=$usuario" ?>" class="dropdown-item">
                                 <i class="material-icons">help</i> Ayuda
                             </a>
                             <a href="salir.php" class="dropdown-item">
@@ -232,13 +232,17 @@
         $result=mysqli_query($conexion, $sql);
         while($ver =mysqli_fetch_row($result))
         { // Comprueba que tenga imagen
+          $ver[2]=substr($ver[2], 25);
           $imagen=$ver[2];
-          if (!file_exists('../'.$ver[2]))
+          if (!file_exists('../'.$ver[2].''))
            $imagen='Imagenes/Destinos/default.png';
           // Separar el nombre del destino
           $destinoPagina=explode(', ', $ver[0]); // Toma la palabra(s) que esta antes de la coma
-          $destinoPagina[1]=quitar_tildes($destinoPagina[1]);// Quita las tildes para poder mandar la palabra(s) por la url
-          $destinoPagina[1]=strtolower($destinoPagina[1]);// Convierte el resultado a minusculas
+          if(count($destinoPagina)>1)
+          {
+              $destinoPagina[1]=quitar_tildes($destinoPagina[1]);// Quita las tildes para poder mandar la palabra(s) por la url
+              $destinoPagina[1]=strtolower($destinoPagina[1]);// Convierte el resultado a minusculas
+          }
           // Para saber si ya esta en el Wish List
           $wish='SELECT * FROM deseos WHERE destino_idDestino='.$destino.' AND usuario_idUsuario='.$usuario.';';
           $buscarDestinoWish = $conexion->query($wish);
@@ -307,7 +311,7 @@
                   { echo '<div class="contenedor">';
                     while($ver =mysqli_fetch_row($result))
                     { // Comprueba que tenga imagen de usuario
-                      if (!file_exists('../'.$ver[5]) || $ver[5]==null)
+                      if (!file_exists('../'.$ver[5].'') || $ver[5]==null)
                        $ver[5]='Imagenes/Usuarios/default.png';
                       $fecha= date_format(date_create($ver[4]),'d / m / Y');
                       $calificacion2='';
@@ -369,8 +373,8 @@
 
                     {
                         $ver[1]=substr($ver[1], 25);
-                    {// Comprueba que tenga imagen de actividad
-                      if (!file_exists('../'.$ver[1]) || $ver[1]==null)
+                    // Comprueba que tenga imagen de actividad
+                      if (!file_exists('../'.$ver[1].'') || $ver[1]==null)
                        $ver[1]='Imagenes/Actividades/default.png';
                 ?>
                 <div class="col-md-6 col-sm-12 col-lg-6">
@@ -399,7 +403,7 @@
                       echo '<div class="contenedor2">';
                        while($ver =mysqli_fetch_row($result2))
                        { // Comprueba que tenga imagen de usuario
-                         if (!file_exists('../'.$ver[5]) || $ver[5]==null)
+                         if (!file_exists('../'.$ver[5].'') || $ver[5]==null)
                           $ver[5]='Imagenes/Usuarios/default.png';
                          $fecha= date_format(date_create($ver[4]),'d / m / Y');
                          $calificacion2='';
@@ -472,20 +476,17 @@
                       WHERE sedesplazaen.Destino_idDestino ='$destino';";
                 $result=mysqli_query($conexion, $sql);
                 if ( $result->num_rows > 0 ) // Se comprueba el numero de columnas
-<<<<<<< HEAD
+
                 {   $col=0;
-                  while($ver =mysqli_fetch_row($result))
-                  {
                     if($col==0)
                       echo '<div class="row">';
                     $col=$col+1;
-                    $ver[1] = substr($ver[1], 25);
-=======
-                { while($ver =mysqli_fetch_row($result))
-                  { // Comprueba que tenga imagen de transporte
-                    if (!file_exists('../'.$ver[1]) || $ver[1]==null)
-                      $ver[1]='Imagenes/Transportes/default.png';
->>>>>>> 5617bcba02e846e2d3b26631d99fd69d6bc70c27
+                     while($ver =mysqli_fetch_row($result))
+                      { // Comprueba que tenga imagen de transporte
+
+                          $ver[1] = substr($ver[1], 25);
+                        if (!file_exists('../'.$ver[1].'') || $ver[1]==null)
+                          $ver[1]='Imagenes/Transportes/default.png';
               ?>
                 <div class="col-md-4 col-sm-12 col-lg-4">
                   <div class="card" style="width: 100%; height: 300px;">

@@ -212,7 +212,6 @@
                     $result=mysqli_query($conexion, $sql);
                     while($ver =mysqli_fetch_row($result))
                     {
-                        $ver[3]=substr($ver[3], 25);
                   ?>
                   <div class="col s12 m6 l4">
                     <div class="card">
@@ -258,13 +257,9 @@
               $result=mysqli_query($conexion, $sql);
               while($ver =mysqli_fetch_row($result))
               { // Separar el nombre del destino
-                  $band=0;
                 $destinoPagina=explode(', ', $ver[0]); // Toma la palabra(s) que esta antes de la coma
-                if (count($destinoPagina)>1) {
-                    $band=1;
-                    $destinoPagina[1]=quitar_tildes($destinoPagina[1]);// Quita las tildes para poder mandar la palabra(s) por la url
-                    $destinoPagina[1]=strtolower($destinoPagina[1]);// Convierte el resultado a minusculas
-                }
+                $destinoPagina[1]=quitar_tildes($destinoPagina[1]);// Quita las tildes para poder mandar la palabra(s) por la url
+                $destinoPagina[1]=strtolower($destinoPagina[1]);// Convierte el resultado a minusculas
                 // Comprueba que tenga imagen
                 if (!file_exists($ver[2]))
                  $ver[2]='Imagenes/Destinos/default.png';
@@ -286,8 +281,6 @@
                   <span class="material-icons">star_border</span>
                   <span class="material-icons">star_border</span>
                   <span class="material-icons">star_border</span>';
-
-                  $ver[2]=substr($ver[2], 25);
             ?>
             <div class="card" style="width:110%;">
               <div class="card-image">
@@ -301,11 +294,7 @@
                 </div>
                 <div class="col l6">
                   <div class="row">
-                      <?php
-                            if($band==1)
-                                $destinoPagina[0]=$destinoPagina[1];
-                       ?>
-                    <a href="https://www.visitmexico.com/es/busqueda?title=<?= $destinoPagina[0] ?>&body=<?= $destinoPagina[0] ?>" target="_blank" class="linkm">
+                    <a href="https://www.visitmexico.com/es/busqueda?title=<?= $destinoPagina[1] ?>&body=<?= $destinoPagina[1] ?>" target="_blank" class="linkm">
                       <i style="" class="material-icons col l2">link</i>
                       <span class="linki"> Más información</span>
                     </a>
@@ -393,11 +382,6 @@
                 $result=mysqli_query($conexion, $sql);
                 if ( $result->num_rows > 0 ) // Se comprueba el numero de columnas
                 {   while($ver =mysqli_fetch_row($result))
-
-                  {
-                     $ver[1]=substr($ver[1], 25);
-                     // echo $ver[1];
-
                   { // Comprueba que tenga imagen
                     if (!file_exists($ver[1]))
                       $ver[1]='Imagenes/Actividades/default-c.png';
@@ -484,7 +468,6 @@
               <?php
                   }
                 }
-            }
                 else
                 { echo '<div class="col l12">
                           <div class="card">
@@ -509,17 +492,17 @@
                           WHERE sedesplazaen.Destino_idDestino ='$destino';";
                     $result=mysqli_query($conexion, $sql);
                     if ( $result->num_rows > 0 ) // Se comprueba el numero de columnas
-                    {
-                      while($ver =mysqli_fetch_row($result))
+                    { while($ver =mysqli_fetch_row($result))
                       { // Comprueba que tenga imagen
-                          $ver[1]=substr($ver[1], 25);
+                        // $ver[1] = substr($ver[1], 25);
                         if (!file_exists($ver[1]))
-                          $ver[1]='Imagenes/Transportes/default.png';
+                          $ver[1]='../Imagenes/Transportes/default.png';
+
                   ?>
                   <div class="col l4 m6 s12">
                     <div class="card">
                       <div class="card-image">
-                        <img src="<?php echo "$ver[1]" ?>">
+                        <img src="<?php echo $ver[1] ?>">
                       </div>
                       <div class="card-content">
                         <p><?php echo $ver[0] ?></p>
