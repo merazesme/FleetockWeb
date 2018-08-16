@@ -201,6 +201,7 @@
                     $result=mysqli_query($conexion, $sql);
                     while($ver =mysqli_fetch_row($result))
                     {
+                        $ver[3]=substr($ver[3], 25);
                   ?>
                   <div class="col s12 m6 l4">
                     <div class="card">
@@ -257,6 +258,8 @@
                   <span class="material-icons">star_border</span>
                   <span class="material-icons">star_border</span>
                   <span class="material-icons">star_border</span>';
+
+                  $ver[2]=substr($ver[2], 25);
             ?>
             <div class="card" style="width:110%;">
               <div class="card-image">
@@ -348,6 +351,7 @@
                 {   while($ver =mysqli_fetch_row($result))
                   {
 
+                     $ver[1]=substr($ver[1], 25);
               ?>
               <div class="row">
                 <div class="col s12 m6 l6">
@@ -454,7 +458,7 @@
                     {
                       while($ver =mysqli_fetch_row($result))
                       {
-
+                          $ver[1]=substr($ver[1], 25);
                   ?>
                   <div class="col l4 m6 s12">
                     <div class="card">

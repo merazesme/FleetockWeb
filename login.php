@@ -97,7 +97,7 @@
 								<div class="input-field col s12">
 									<i class="material-icons prefix">account_circle</i>
 									<input id="usuarioLogin" name="usuarioLogin" type="text" class="validate">
-									<label for="usuarioLogin">Nombre de usuario</label>
+									<label for="usuarioLogin">Tockname</label>
 								</div>
 								<div class="input-field col s12">
 									<i class="material-icons prefix">vpn_key</i>
@@ -196,6 +196,7 @@
                     $result=mysqli_query($conexion, $sql);
                     while($ver =mysqli_fetch_row($result))
                     {
+                        $ver[3]=substr($ver[3], 25);
                   ?>
                   <div class="col s12 m6 l4">
                     <div class="card">
@@ -247,7 +248,7 @@
 	      	<div class="row container" align="center">
 	        	<h4 class="header">El viaje de tus sueños te esta espereando</h4>
             <div class="video-container">
-        <iframe width="853" height="480" src="//www.youtube.com/embed/7cQON1PsuPg?rel=0" frameborder="0" allowfullscreen></iframe>
+        <iframe width="853" height="480" src="//www.youtube.com/embed/ndEv1ppPt14" frameborder="0" allowfullscreen></iframe>
       </div>
 	      	</div>
 	    </div>

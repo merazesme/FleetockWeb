@@ -103,6 +103,7 @@ function muestraDestinos($buscar,$opcion,$usuario,$filtro){
         if($col==0)
             $card.='<div class="row">';
         $col=$col+1;
+        $fila['foto'] = substr($fila['foto'], 25);
         $card.='<div class="col-md-4 col-sm-12">
                   <div class="card" style="width: 100%; height: 360px;">
                     <div class="card-img-top">

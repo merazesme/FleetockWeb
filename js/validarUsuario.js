@@ -2,14 +2,10 @@
 $(document).ready(function()
 {
     $('#usuarioLogin').keypress(function(tecla) {
-    if((tecla.charCode < 97 || tecla.charCode > 122) && (tecla.charCode < 65 || tecla.charCode > 90) && tecla.charCode != 45  && tecla.charCode != 95 && tecla.charCode != 46) return false;
-    });
-
-    $('#passwordLogin').keypress(function(tecla) {
-    if((tecla.charCode < 97 || tecla.charCode > 122) && (tecla.charCode < 65 || tecla.charCode > 90) &&
-    (tecla.charCode < 48 || tecla.charCode > 57) && tecla.charCode != 45 && tecla.charCode != 64
-    && tecla.charCode != 95 && tecla.charCode != 58 && tecla.charCode != 59 && tecla.charCode != 63
-    && tecla.charCode != 46 && tecla.charCode != 42 ) return false;
+        if((tecla.charCode < 97 || tecla.charCode > 122) && (tecla.charCode < 65 || tecla.charCode > 90)
+         && tecla.charCode != 45  && tecla.charCode != 95 && tecla.charCode != 46
+         && (tecla.charCode < 48 || tecla.charCode > 57)
+         && tecla.charCode != 58 && tecla.charCode != 42) return false;
     });
 
     $('#btnLogin').click(function(e){

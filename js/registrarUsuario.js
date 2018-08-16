@@ -58,40 +58,10 @@ return false;
     });
 
     $('#tockname').keypress(function(tecla) {
-    if((tecla.charCode < 97 || tecla.charCode > 122) && (tecla.charCode < 65 || tecla.charCode > 90) && tecla.charCode != 45  && tecla.charCode != 95 && tecla.charCode != 46) return false;
-    });
-
-    $('#password').keypress(function(tecla) {
-    if((tecla.charCode < 97 || tecla.charCode > 122) && (tecla.charCode < 65 || tecla.charCode > 90) &&
-    (tecla.charCode < 48 || tecla.charCode > 57) && tecla.charCode != 45 //-
-    && tecla.charCode != 64 //@
-    && tecla.charCode != 95 //_
-    && tecla.charCode != 58 //:
-    && tecla.charCode != 59 //;
-    && tecla.charCode != 63 //?
-    && tecla.charCode != 46 //.
-    && tecla.charCode != 42 //*
-    && tecla.charCode != 43 //+
-    && tecla.charCode != 35 //#
-    )
-    return false;
-    });
-
-    $('#confirmaPassword').keypress(function(tecla) {
-    if((tecla.charCode < 97 || tecla.charCode > 122) && (tecla.charCode < 65 || tecla.charCode > 90) &&
-    (tecla.charCode < 48 || tecla.charCode > 57)
-    && tecla.charCode != 45 //-
-    && tecla.charCode != 64 //@
-    && tecla.charCode != 95 //_
-    && tecla.charCode != 58 //:
-    && tecla.charCode != 59 //;
-    && tecla.charCode != 63 //?
-    && tecla.charCode != 46 //.
-    && tecla.charCode != 42 //*
-    && tecla.charCode != 43 //+
-    && tecla.charCode != 35 //#
-    )
-    return false;
+    if((tecla.charCode < 97 || tecla.charCode > 122) && (tecla.charCode < 65 || tecla.charCode > 90)
+     && tecla.charCode != 45  && tecla.charCode != 95 && tecla.charCode != 46
+     && (tecla.charCode < 48 || tecla.charCode > 57)
+     && tecla.charCode != 58 && tecla.charCode != 42) return false;
     });
 
     $('#fechaNacimiento').keypress(function(tecla) {
@@ -114,7 +84,9 @@ return false;
        }else if (document.formulario.grupoSexo[0].checked == false && document.formulario.grupoSexo[1].checked == false) {
            $('#resultado').html("Seleccione un sexo");
        }
-        else if(password == confirmaPassword)
+       else if(password.length<8){
+           $('#resultado').html("Ingrese una contraseña con un mínimo de 8 caracteres.");
+       }else if(password == confirmaPassword)
         {
             var datos = $('#formRegistro').serialize()+"&ban=0";
 

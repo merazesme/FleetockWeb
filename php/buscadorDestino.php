@@ -44,9 +44,10 @@
           <span class="material-icons" style="size:10px;">star_border</span>
           <span class="material-icons" style="size:10px;">star_border</span>';
 
+        $fila['foto']=substr($fila['foto'], 25);
         $card.=
         '<div class="col s12 m6 l4">
-        <div class="card">
+        <div class="card" style="height:420px;">
           <div class="card-image">
             <img src="'.$fila['foto'].'">
           </div>

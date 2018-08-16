@@ -362,6 +362,7 @@
                   { echo '<div class="row">';
                     while($ver =mysqli_fetch_row($result))
                     {
+                        $ver[1]=substr($ver[1], 25);
                 ?>
                 <div class="col-md-6 col-sm-12 col-lg-6">
                   <div class="card" style="width: 100%; height: 350px;">
@@ -461,6 +462,7 @@
                     if($col==0)
                       echo '<div class="row">';
                     $col=$col+1;
+                    $ver[1] = substr($ver[1], 25);
               ?>
                 <div class="col-md-4 col-sm-12">
                     <div class="card" style="width: 100%; height: 300px;">

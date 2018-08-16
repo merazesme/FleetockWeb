@@ -59,10 +59,10 @@ $(document).ready(function(){
 	var imgPos = 1;
 	$('.rightArrow span').click(nextSlider);
 	$('.leftArrow span').click(prevSlider);
-	/*setInterval(function()
+	setInterval(function()
 	{
 		nextSlider();
-	}, 4000);*/
+	}, 4000);
 	function nextSlider()
 	{
 		if( imgPos >= imgItems)

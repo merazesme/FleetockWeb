@@ -158,7 +158,7 @@
                           }
                              echo '
                                  <div class="col-md-4 col-sm-12">
-                                     <div class="card" style="width: 100%; height: 320px;">
+                                     <div class="card" style="width: 100%; height: 360px;">
                                          <div class="card-img-top">
                                              <img style="width: 100%; height: 200px;" src="../'.$ruta.'">
                                          </div>
